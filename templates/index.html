@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Generator | Home</title>
+</head>
+<body>
+    <h1>Welcome to the home of all things teams</h1>
+    <p>Make quick, easy teams for all your classes. Spend more time playing and less time setting up.</p>
+    <h2>Here is a list of all your classes</h2>
+    {% if classes %}
+    <ul>
+        {% for class in classes  %}
+            <li>{{class}}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You don't have any classes yet.</p>
+    {% endif %}
+</body>
+</html>
