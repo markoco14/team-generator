@@ -6,13 +6,14 @@
     <title>Team Generator | Home</title>
 </head>
 <body>
+    {% include "_header.html" %}
     <h1>Welcome to the home of all things teams</h1>
     <p>Make quick, easy teams for all your classes. Spend more time playing and less time setting up.</p>
     <h2>Here is a list of all your classes</h2>
     {% if classes %}
     <ul>
         {% for class in classes  %}
-            <li><a href="/classes/{{loop.index}}">{{class}}</a></li>
+            <li><a href="/classes/{{loop.index}}?students=many">{{class}}</a></li>
         {% endfor %}
     </ul>
     {% else %}
