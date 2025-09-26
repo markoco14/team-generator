@@ -15,7 +15,7 @@
     {% if classes %}
     <ul>
         {% for class in classes  %}
-            <li><a href="/classes/{{loop.index}}?students=many">{{class}}</a></li>
+            <li><a href="/classes/{{loop.index}}">{{class}}</a></li>
         {% endfor %}
     </ul>
     {% else %}

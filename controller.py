@@ -7,16 +7,16 @@ from templates import templates
 async def get_homepage(request: Request) -> HTMLResponse:
     classes_param = request.query_params.get("classes")
 
-    classes = None
-    if classes_param == "many":
-        classes = [
-            "Class A",
-            "Class B",
-            "Class C",
-            "Class D",
-            "Class E",
-            "Class F"
-        ]
+    classes = [
+        "Class A",
+        "Class B",
+        "Class C",
+        "Class D",
+        "Class E",
+        "Class F"
+    ]
+    if classes_param == "none":
+        classes = None
     elif classes_param == "one":
         classes = [
             "Class A",
@@ -33,15 +33,15 @@ async def get_homepage(request: Request) -> HTMLResponse:
 async def get_class_detail(request: Request) -> HTMLResponse:
     students_param = request.query_params.get("students")
 
-    students = None
-    if students_param == "many":
-        students = [
-            "Student A",
-            "Student B",
-            "Student C",
-            "Student D",
-            "Student E"
-        ]
+    students = [
+        "Student A",
+        "Student B",
+        "Student C",
+        "Student D",
+        "Student E"
+    ]
+    if students_param == "none":
+        students = None
     elif students_param == "one":
         students = [
             "Student A"
