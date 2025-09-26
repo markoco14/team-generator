@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Generator | Class {{request.path_params.get("class_id")}}</title>
+    <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
     {% include "_header.html" %}
@@ -13,11 +14,12 @@
     {% if students %}
     <ul>
         {% for student in students  %}
-            <li>{{student}}</li>
+            <li>{{student}}<button>Edit</button><button>Delete</button></li>
         {% endfor %}
     </ul>
     {% else %}
     <p>You don't have any students registered yet.</p>
     {% endif %}
+    <a href="/classes/{{request.path_params.get('class_id')}}/make-teams">Make teams</a>
 </body>
 </html>

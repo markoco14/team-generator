@@ -51,3 +51,19 @@ async def get_class_detail(request: Request) -> HTMLResponse:
         name="classes-show.html",
         context={"students": students}
     )
+
+async def get_make_teams(request: Request) -> HTMLResponse:
+    
+    students = [
+        "Student A",
+        "Student B",
+        "Student C",
+        "Student D",
+        "Student E"
+    ]
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="make-teams.html",
+        context={"students": students}
+    )

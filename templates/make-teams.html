@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Generator | Class {{request.path_params.get("class_id")}}</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+    {% include "_header.html" %}
+    <h1>Make Your Teams</h1>
+    <p>Remove absent students, choose your number of teams, and get new teams as often as you want.</p>
+    <h2>Your teams</h2>
+    <div id="teams">
+        <p>You haven't made any teams yet</p>
+    </div>
+    <h2>Students here today:</h2>
+    {% if students %}
+    <form action="/classes/{{request.path_params.get('class_id')}}/make-teams" method="POST">
+        {% for student in students %}
+        <div class="input-group">
+            <label for="student-{{student[-1]}}">{{student}}</label>
+            <input id="student-{{student[-1]}}" name="students" type="checkbox" checked value="{{student}}">
+        </div>
+        {% endfor %}
+        <button type="submit">Make Teams</button>
+    </form>
+    {% else %}
+    <p>Oops. There are no students in this class.</p>
+    {% endif %}
+    {# <a href="/classes/{{request.path_params.get('class_id')}}/make-teams">Make teams</a> #}
+</body>
+</html>
