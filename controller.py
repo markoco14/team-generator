@@ -29,6 +29,7 @@ async def get_homepage(request: Request) -> HTMLResponse:
         context={"classes": classes}
     )
 
+
 async def get_class_detail(request: Request) -> HTMLResponse:
     students_param = request.query_params.get("students")
 
@@ -52,6 +53,7 @@ async def get_class_detail(request: Request) -> HTMLResponse:
         context={"students": students}
     )
 
+
 async def get_make_teams(request: Request) -> HTMLResponse:
     
     students = [
@@ -65,5 +67,16 @@ async def get_make_teams(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
         request=request,
         name="make-teams.html",
+        context={"students": students}
+    )
+
+
+async def make_teams(request: Request) -> HTMLResponse:
+    form_data = await request.form()
+    students = form_data.getlist("students")
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="_teams.html",
         context={"students": students}
     )
