@@ -1,18 +1,19 @@
 from fastapi import APIRouter
 
-from controller import get_homepage
+from controller import get_homepage, get_class_detail
 
 router = APIRouter()
 
-# routes follow ('method', '/route', 'handler', 'tags', 'dependencies')
+# routes follow ('method', 'path', 'endpoint/handler', 'tags', 'dependencies')
 routes = [
-    ("GET", "/",  get_homepage, None, None),
+    ("GET", "/",                    get_homepage,       None, None),
+    ("GET", "/classes/{class_id}",  get_class_detail,   None, None)
 ]
 
 for method, path, handler, tags, deps in routes:
     router.add_api_route(
-        path,
-        handler,
+        path=path,
+        endpoint=handler,
         methods=[method],
         tags=tags,
         dependencies=deps or None

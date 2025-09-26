@@ -28,3 +28,26 @@ async def get_homepage(request: Request) -> HTMLResponse:
         name="index.html",
         context={"classes": classes}
     )
+
+async def get_class_detail(request: Request) -> HTMLResponse:
+    students_param = request.query_params.get("students")
+
+    students = None
+    if students_param == "many":
+        students = [
+            "Student A",
+            "Student B",
+            "Student C",
+            "Student D",
+            "Student E"
+        ]
+    elif students_param == "one":
+        students = [
+            "Student A"
+        ]
+
+    return templates.TemplateResponse(
+        request=request,
+        name="classes-show.html",
+        context={"students": students}
+    )
