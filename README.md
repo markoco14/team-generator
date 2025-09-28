@@ -17,5 +17,15 @@ The tech stack is simple:
 
 All you need to do is clone this, modify it as you wish, and host it somewhere.
 
+## Set up
+```
+git clone repo-name team-generator
+cd team-generator
+python3 -m venv venv
+which python
+pip install -r requirements
+fastapi dev main.py
+```
+
 ## For those who just want to make a few teams
 Website coming soon.
