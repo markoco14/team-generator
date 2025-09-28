@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Generator | Home</title>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/styles.css" />
-</head>
-<body>
-    {% include "_header.html" %}
+{% extends "base.html" %}
+{% block content %}
     <h1>Welcome to the home of all things teams</h1>
     <p>Make quick, easy teams for all your classes. Spend more time playing and less time setting up.</p>
     <h2>Here is a list of all your classes</h2>
@@ -21,5 +12,4 @@
     {% else %}
     <p>You don't have any classes yet.</p>
     {% endif %}
-</body>
-</html>
+{% endblock content %}

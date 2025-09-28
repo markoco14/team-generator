@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Generator | Class {{request.path_params.get("class_id")}}</title>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha384-ZBXiYtYQ6hJ2Y0ZNoYuI+Nq5MqWBr+chMrS/RkXpNzQCApHEhOt2aY8EJgqwHLkJ" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/styles.css" />
-</head>
-<body>
-    {% include "_header.html" %}
+{% extends "base.html" %}
+{% block content %}
     <h1>Your Class {{request.path_params.get("class_id")}}</h1>
     <p>Manage your class information and student list <a href="/classes/{{request.path_params.get('class_id')}}/edit">here</a>.</p>
     <h2>Make Your Teams</h2>
@@ -36,5 +27,4 @@
     {% else %}
     <p>Oops. There are no students in this class.</p>
     {% endif %}
-</body>
-</html>
+{% endblock content %}
