@@ -6,7 +6,7 @@
     {% if classes %}
     <ul>
         {% for class in classes  %}
-            <li><a href="/classes/{{loop.index}}">{{class}}</a></li>
+            <li><a href="/classes/{{class.id}}">{{class.name}}</a></li>
         {% endfor %}
     </ul>
     {% else %}

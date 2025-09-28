@@ -1,32 +1,26 @@
+from collections import namedtuple
 import math
 import random
+import sqlite3
 
 from fastapi import Request, Response
 from fastapi.responses import HTMLResponse
 
 from templates import templates
 
+ClassRow = namedtuple("ClassRow", ["id", "name"])
+
 
 async def get_homepage(request: Request) -> HTMLResponse:
-    classes_param = request.query_params.get("classes")
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name FROM classes;")
+        classes = [ClassRow(*row) for row in cursor.fetchall()]
+        cursor.close()
 
-    classes = [
-        "Class A",
-        "Class B",
-        "Class C",
-        "Class D",
-        "Class E",
-        "Class F"
-    ]
-    
-    if classes_param == "none":
-        classes = None
-    elif classes_param == "one":
-        classes = [
-            "Class A",
-        ]
         
-    # elif request.query
+
+    
     return templates.TemplateResponse(
         request=request,
         name="index.html",
