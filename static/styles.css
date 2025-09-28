@@ -1,3 +1,7 @@
+body {
+    overflow-y: scroll;
+}
+
 form {
     display: flex;
     flex-direction: column;
