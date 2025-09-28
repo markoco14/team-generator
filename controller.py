@@ -1,4 +1,3 @@
-from collections import namedtuple
 import math
 import random
 import sqlite3
@@ -6,9 +5,8 @@ import sqlite3
 from fastapi import Request, Response
 from fastapi.responses import HTMLResponse
 
+from structs import ClassRow
 from templates import templates
-
-ClassRow = namedtuple("ClassRow", ["id", "name"])
 
 
 async def get_homepage(request: Request) -> HTMLResponse:
@@ -18,9 +16,6 @@ async def get_homepage(request: Request) -> HTMLResponse:
         classes = [ClassRow(*row) for row in cursor.fetchall()]
         cursor.close()
 
-        
-
-    
     return templates.TemplateResponse(
         request=request,
         name="index.html",
