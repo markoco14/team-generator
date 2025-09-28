@@ -21,6 +21,8 @@
         hx-post="/classes/{{request.path_params.get('class_id')}}/make-teams"
         hx-target="#teams"
         >
+        <label for="quantity">How many teams?</label>
+        <input id="quantity" name="number-of-teams" type="number" value="2"/>
         {% for student in students %}
         <div class="input-group">
             <label for="student-{{student[-1]}}">{{student}}</label>
