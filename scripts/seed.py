@@ -1,4 +1,10 @@
 import sqlite3
+import random
+
+from faker import Faker
+
+from structs import ClassRow
+
 
 def seed_classes() -> None:
     data = [
@@ -19,6 +25,24 @@ def seed_classes() -> None:
 
     print("DB seeded with classes")
 
+def seed_students():
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name FROM classes;")
+        class_groups = [ClassRow(*row) for row in cursor.fetchall()]
+        fake = Faker()
+        students = []
+        for class_group in class_groups:
+            for i in range(random.randint(10, 15)):
+                students.append((fake.name(), class_group.id))
+        try:
+            cursor.executemany("INSERT INTO students (name, class_id) VALUES (?, ?)", students)
+            conn.commit()
+        except Exception as e:
+            print(f"An error occured inserting students: {e}")
+
+    print("DB seeded with students")
+
 def list_classes():
     connection = sqlite3.connect("db.sqlite3")
     cursor = connection.cursor()
@@ -33,4 +57,5 @@ def list_classes():
         print(f"name: {row[1]}")
 
 # seed_classes()
+# seed_students()
 # list_classes()
