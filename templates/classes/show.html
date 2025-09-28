@@ -17,9 +17,9 @@
         <label for="quantity">How many teams?</label>
         <input id="quantity" name="number-of-teams" type="number" value="2"/>
         {% for student in students %}
-        <div class="input-group">
-            <label for="student-{{student[-1]}}">{{student.name}}</label>
-            <input id="student-{{student[-1]}}" name="students" type="checkbox" checked value="{{student.name}}">
+        <div class="checkbox-group">
+            <label for="student-{{student[0]}}">{{student.name}}</label>
+            <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
         </div>
         {% endfor %}
         <button type="submit">Make Teams</button>

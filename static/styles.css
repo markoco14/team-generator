@@ -10,8 +10,16 @@ form {
 
     .input-group {
         display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
     }
+
+    .checkbox-group {
+        display: flex;
+    }
+    
 }
+
 
 ul {
     padding: 0;
