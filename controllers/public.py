@@ -5,7 +5,7 @@ import sqlite3
 from fastapi import Request, Response
 from fastapi.responses import HTMLResponse
 
-from structs import ClassRow, StudentRow
+from structs import ClassRow
 from templates import templates
 
 
@@ -20,33 +20,6 @@ async def get_homepage(request: Request) -> HTMLResponse:
         request=request,
         name="index.html",
         context={"classes": classes}
-    )
-
-
-async def get_class_detail(request: Request, class_id: int) -> HTMLResponse:
-    with sqlite3.connect("db.sqlite3") as conn:
-        cursor = conn.cursor()
-        cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
-        students = [StudentRow(*row) for row in cursor.fetchall()]
-        cursor.close()
-
-    return templates.TemplateResponse(
-        request=request,
-        name="classes/show.html",
-        context={"students": students}
-    )
-
-async def get_class_edit(request: Request, class_id: int) -> HTMLResponse:
-    with sqlite3.connect("db.sqlite3") as conn:
-        cursor = conn.cursor()
-        cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
-        students = [StudentRow(*row) for row in cursor.fetchall()]
-        cursor.close()
-    
-    return templates.TemplateResponse(
-        request=request,
-        name="classes/edit.html",
-        context={"students": students}
     )
 
 
