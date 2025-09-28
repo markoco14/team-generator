@@ -5,7 +5,7 @@ import sqlite3
 from fastapi import Request, Response
 from fastapi.responses import HTMLResponse
 
-from structs import ClassRow
+from structs import ClassRow, StudentRow
 from templates import templates
 
 
@@ -23,30 +23,12 @@ async def get_homepage(request: Request) -> HTMLResponse:
     )
 
 
-async def get_class_detail(request: Request) -> HTMLResponse:
-    students_param = request.query_params.get("students")
-
-    students = [
-        "Student A",
-        "Student B",
-        "Student C",
-        "Student D",
-        "Student E",
-        "Student F",
-        "Student G",
-        "Student H",
-        "Student I",
-        "Student J",
-        "Student K",
-        "Student L",
-    ]
-
-    if students_param == "none":
-        students = None
-    elif students_param == "one":
-        students = [
-            "Student A"
-        ]
+async def get_class_detail(request: Request, class_id: int) -> HTMLResponse:
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
+        students = [StudentRow(*row) for row in cursor.fetchall()]
+        cursor.close()
 
     return templates.TemplateResponse(
         request=request,
@@ -54,21 +36,12 @@ async def get_class_detail(request: Request) -> HTMLResponse:
         context={"students": students}
     )
 
-async def get_class_edit(request: Request) -> HTMLResponse:
-    students = [
-        "Student A",
-        "Student B",
-        "Student C",
-        "Student D",
-        "Student E",
-        "Student F",
-        "Student G",
-        "Student H",
-        "Student I",
-        "Student J",
-        "Student K",
-        "Student L",
-    ]
+async def get_class_edit(request: Request, class_id: int) -> HTMLResponse:
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
+        students = [StudentRow(*row) for row in cursor.fetchall()]
+        cursor.close()
     
     return templates.TemplateResponse(
         request=request,

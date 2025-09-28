@@ -4,7 +4,7 @@
     {% if students %}
     <ul>
         {% for student in students  %}
-            <li>{{student}}<button>Edit</button><button>Delete</button></li>
+            <li>{{student.name}}<button>Edit</button><button>Delete</button></li>
         {% endfor %}
     </ul>
     {% else %}
