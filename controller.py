@@ -18,6 +18,7 @@ async def get_homepage(request: Request) -> HTMLResponse:
         "Class E",
         "Class F"
     ]
+    
     if classes_param == "none":
         classes = None
     elif classes_param == "one":
@@ -41,8 +42,16 @@ async def get_class_detail(request: Request) -> HTMLResponse:
         "Student B",
         "Student C",
         "Student D",
-        "Student E"
+        "Student E",
+        "Student F",
+        "Student G",
+        "Student H",
+        "Student I",
+        "Student J",
+        "Student K",
+        "Student L",
     ]
+
     if students_param == "none":
         students = None
     elif students_param == "one":
@@ -52,13 +61,11 @@ async def get_class_detail(request: Request) -> HTMLResponse:
 
     return templates.TemplateResponse(
         request=request,
-        name="classes-show.html",
+        name="classes/show.html",
         context={"students": students}
     )
 
-
-async def get_make_teams(request: Request) -> HTMLResponse:
-    
+async def get_class_edit(request: Request) -> HTMLResponse:
     students = [
         "Student A",
         "Student B",
@@ -76,7 +83,7 @@ async def get_make_teams(request: Request) -> HTMLResponse:
     
     return templates.TemplateResponse(
         request=request,
-        name="make-teams.html",
+        name="classes/edit.html",
         context={"students": students}
     )
 

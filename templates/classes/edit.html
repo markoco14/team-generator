@@ -9,9 +9,7 @@
 </head>
 <body>
     {% include "_header.html" %}
-    <h1>Your Class {{request.path_params.get("class_id")}}</h1>
-    <p>Manage your class information and student list.</p>
-    <h2>Here is a list of the students in this class</h2>
+    <h2>Students in Class {{request.path_params.get("class_id")}}</h2>
     {% if students %}
     <ul>
         {% for student in students  %}
@@ -21,6 +19,5 @@
     {% else %}
     <p>You don't have any students registered yet.</p>
     {% endif %}
-    <a href="/classes/{{request.path_params.get('class_id')}}/make-teams">Make teams</a>
 </body>
 </html>

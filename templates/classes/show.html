@@ -9,7 +9,9 @@
 </head>
 <body>
     {% include "_header.html" %}
-    <h1>Make Your Teams</h1>
+    <h1>Your Class {{request.path_params.get("class_id")}}</h1>
+    <p>Manage your class information and student list <a href="/classes/{{request.path_params.get('class_id')}}/edit">here</a>.</p>
+    <h2>Make Your Teams</h2>
     <p>Remove absent students, choose your number of teams, and get new teams as often as you want.</p>
     <h2>Your teams</h2>
     <div id="teams">
@@ -18,7 +20,7 @@
     <h2>Students here today:</h2>
     {% if students %}
     <form 
-        hx-post="/classes/{{request.path_params.get('class_id')}}/make-teams"
+        hx-post="/make-teams"
         hx-target="#teams"
         >
         <label for="quantity">How many teams?</label>
