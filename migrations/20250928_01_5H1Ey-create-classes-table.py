@@ -14,6 +14,6 @@ steps = [
             name TEXT NOT NULL UNIQUE
         );
         """,
-        "DROP TABLE classes"
+        "DROP TABLE classes;"
     )
 ]
