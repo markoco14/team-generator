@@ -139,3 +139,20 @@ async def create_batch(request: Request, class_id: int) -> HTMLResponse:
             print(f"an error occured when inserting students: {e}")
 
     return RedirectResponse(status_code=303, url=f"/classes/{class_id}/edit")
+
+
+async def edit_student(request: Request, class_id: int, student_id: int):
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        
+        cursor.execute(f"SELECT id, name FROM classes WHERE id = {class_id};")
+        class_row = ClassRow(*cursor.fetchone())
+
+        cursor.execute(f"SELECT id, name, class_id FROM students WHERE id = {student_id};")
+        student_row = StudentRow(*cursor.fetchone())
+
+    return templates.TemplateResponse(
+        request=request,
+        name="classes/_edit-student.html",
+        context={"class": class_row, "student": student_row}
+    )
