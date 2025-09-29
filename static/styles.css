@@ -4,6 +4,7 @@
 
 body {
     overflow-y: scroll;
+    font-size: 18px;
 }
 
 form {
@@ -37,4 +38,7 @@ ul {
     list-style-type: none;
 }
 
-
+.wrapper {
+    max-width: 600px;
+    margin: auto;
+}

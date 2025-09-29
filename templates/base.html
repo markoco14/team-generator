@@ -11,9 +11,12 @@
     {% block header %}
         {% include "_header.html" %}
     {% endblock header %}
-
-    {% block content %}
-    
-    {% endblock content %}
+    <main>
+        <div class="wrapper">
+            {% block content %}
+            
+            {% endblock content %}
+        </div>
+    </main>
 </body>
 </html>
