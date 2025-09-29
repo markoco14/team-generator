@@ -1,0 +1,5 @@
+<form hx-put="/students/{{student.id}}" hx-swap="none">
+    <label for="student">Student: </label>
+    <input type="text" id="student-{{student.id}}" name="student" value="{{student.name}}" autofocus/>
+    <button type="submit">Save</button>
+</form>

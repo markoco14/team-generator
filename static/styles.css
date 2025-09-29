@@ -4,21 +4,55 @@
 
 body {
     overflow-y: scroll;
+    font-size: 18px;
+    margin: 0;
+    padding: 0 0 5rem 0;
+}
+
+.wrapper {
+    max-width: 600px;
+    margin: auto;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+header > div {
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-
     max-width: 500px;
+
+    #teams-button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        margin: 1rem 0 0 0;
+    }
 
     .input-group {
         display: flex;
         flex-direction: column;
+        margin: 0 0 1rem 0;
     }
 
-    .checkbox-group {
+    .quantity {
         display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+
+    .checkbox-group label {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
     }
 
     .error {
@@ -31,10 +65,19 @@ form {
     
 }
 
+/* Media query for screens larger than typical mobile phones */
+@media screen and (min-width: 400px) {
+    form {
+        #teams-button {
+            position: static; /* Button no longer fixed at bottom */
+            width: auto;
+            height: auto;
+            margin-top: 1rem;
+        }
+    }
+}
 
 ul {
     padding: 0;
     list-style-type: none;
 }
-
-

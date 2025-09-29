@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+Batch Add Students | TeamMaker
+{% endblock title %}
+{% block content %}
+    <h1>Batch add students to {{class.name}} class</h1>
+    <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
+    <form action="/classes/{{class.id}}/students/batch" method="POST">
+        <p>Enter each students name on a new line without commas. Names on the same line will be added together</p>
+        <details>
+            <summary>See example</summary>
+            <div>
+                Student 1 <br>
+                Student 2 <br>
+                Student 3 <br>
+            </div>
+        </details>
+        <label for="students">Student names</label>
+        <textarea id="students" name="students" rows="5" autofocus></textarea>
+        <button type="submit">Save</button>
+    </form>
+    <script>
+        document.querySelectorAll("textarea").forEach(function(textarea) {
+            textarea.style.height = "auto"; // Reset height to allow shrinking
+            textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
+            textarea.style.overflowY = "hidden"; // Hide scrollbar if present
+
+            textarea.addEventListener("input", function() {
+                this.style.height = "auto";
+                this.style.height = this.scrollHeight + "px";
+            });
+        });
+    </script>
+{% endblock content %}

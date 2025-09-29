@@ -1,0 +1,12 @@
+<span>{{student.name}}</span>
+<button 
+    hx-get="/classes/{{student.class_id}}/students/{{student.id}}/edit" 
+    hx-target="closest li"
+    >Edit
+</button>
+<button 
+    hx-delete="/students/{{student.id}}" 
+    hx-swap="delete" 
+    hx-target="closest li">
+    Delete
+</button>

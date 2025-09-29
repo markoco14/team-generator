@@ -14,15 +14,19 @@
         hx-post="/make-teams"
         hx-target="#teams"
         >
-        <label for="quantity">How many teams?</label>
-        <input id="quantity" name="number-of-teams" type="number" value="2"/>
+        <div class="input-group quantity">
+            <label for="quantity">How many teams?</label>
+            <input id="quantity" name="number-of-teams" type="number" value="2"/>
+        </div>
         {% for student in students %}
         <div class="checkbox-group">
-            <label for="student-{{student[0]}}">{{student.name}}</label>
-            <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
+            <label for="student-{{student[0]}}">
+                <span>{{student.name}}</span>
+                <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
+            </label>
         </div>
         {% endfor %}
-        <button type="submit">Make Teams</button>
+        <button id="teams-button" type="submit">Make Teams</button>
     </form>
     {% else %}
     <p>Oops. There are no students in this class.</p>
