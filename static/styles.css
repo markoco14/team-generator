@@ -5,6 +5,22 @@
 body {
     overflow-y: scroll;
     font-size: 18px;
+    margin: 0;
+    padding: 0 0 5rem 0;
+}
+
+.wrapper {
+    max-width: 600px;
+    margin: auto;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+header > div {
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 form {
@@ -32,13 +48,7 @@ form {
     
 }
 
-
 ul {
     padding: 0;
     list-style-type: none;
-}
-
-.wrapper {
-    max-width: 600px;
-    margin: auto;
 }
