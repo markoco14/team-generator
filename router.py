@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from controllers import classes, public
+from controllers import classes, public, students
 
 router = APIRouter()
 
@@ -16,7 +16,9 @@ routes = [
     ("DELETE",  "/classes/{class_id}",                  classes.delete,         None, None),
     ("GET",     "/classes/{class_id}/delete",           classes.delete,         None, None),
     ("GET",     "/classes/{class_id}/students",         classes.students,       None, None),
-    ("POST",    "/classes/{class_id}/students/batch",   classes.create_batch,  None, None),
+    ("POST",    "/classes/{class_id}/students/batch",   classes.create_batch,   None, None),
+
+    ("DELETE",  "/students/{student_id}",               students.delete,        None, None),
 
     ("POST",    "/make-teams",                      public.make_teams,      None, None)
 ]
