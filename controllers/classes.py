@@ -3,7 +3,7 @@ import sqlite3
 from fastapi import Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from structs import ClassRow, StudentRow
+from structs import ClassRow, StudentCreate, StudentRow
 from templates import templates
 
 
@@ -104,3 +104,38 @@ async def delete(request: Request, class_id: int) -> Response:
         return Response(status_code=200, headers={"Hx-Redirect": f"/"})
     
     return RedirectResponse(status_code=303, url="/")
+
+async def students(request: Request, class_id: int) -> Response:
+    """Return the batch add student page"""
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT id, name FROM classes WHERE id = {class_id};")
+        class_row = ClassRow(*cursor.fetchone())
+
+    return templates.TemplateResponse(
+        request=request,
+        name="classes/batch-add.html",
+        context={"class": class_row}
+    )
+    
+
+async def create_batch(request: Request, class_id: int) -> HTMLResponse:
+    form_data = await request.form()
+    students = form_data.get("students")
+    
+    if students.find(","):
+        students = students.replace(",", "")
+
+    students = students.split("\r\n")
+    students = filter(None, students)
+
+    batch_data = [StudentCreate(name=student, class_id=class_id) for student in students]
+    
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        try:
+            cursor.executemany("INSERT INTO students (name, class_id) VALUES (?, ?)", batch_data)
+        except Exception as e:
+            print(f"an error occured when inserting students: {e}")
+
+    return RedirectResponse(status_code=303, url=f"/classes/{class_id}/edit")
