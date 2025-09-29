@@ -1,7 +1,7 @@
 import sqlite3
 
 from fastapi import Request, Response
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from structs import StudentRow
 from templates import templates
@@ -10,8 +10,37 @@ from templates import templates
 async def new(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
         request=request,
-        name="classes/new.html"
+        name="classes/new.html",
+        context={"form_data": None, "form_errors": None}
     )
+
+async def create(request: Request) -> Response:
+    form_data = await request.form()
+    name = form_data.get("name")
+
+    form_errors = None
+    if not name:
+        form_errors = {"name": "You need to give the class a name."}
+    elif len(name) < 2:
+        form_errors = {"name": "The name needs to be longer than two characters."}
+    
+    if form_errors:
+        return templates.TemplateResponse(
+            request=request,
+            name="classes/new.html",
+            headers={"Hx-Reselect": "#name-error", "Hx-Retarget": "#name-error", "Hx-Reswap": "outerHTML"},
+            context={"form_data": form_data, "form_errors": form_errors}
+        )
+    
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO classes (name) VALUES (?)", (name,))
+        conn.commit()
+    
+    if request.headers.get("Hx-Request"):
+        return Response(status_code=200, headers={"Hx-Redirect": "/"})
+
+    return RedirectResponse(status_code=303, url="/")
 
 async def show(request: Request, class_id: int) -> HTMLResponse:
     with sqlite3.connect("db.sqlite3") as conn:

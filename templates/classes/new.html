@@ -4,11 +4,17 @@
 {% endblock title %}
 {% block content %}
     <h1>New Class</h1>
-    <form>
+    <form 
+        action="/classes"
+        method="POST"
+        hx-post="/classes"
+        hx-swap="none"
+        >
         <div class="input-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" autofocus/>
         </div>
+        <span id="name-error" class="error">{% if form_errors and form_errors.get("name") %}{{form_errors.get("name")}}{% endif %}</span>
         <button type="submit">Save</button>
     </form>
 {% endblock content %}

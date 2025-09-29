@@ -8,6 +8,7 @@ router = APIRouter()
 # routes follow ('method', 'path', 'endpoint/handler', 'tags', 'dependencies')
 routes = [
     ("GET",     "/",                                public.get_homepage,    None, None),
+    ("POST",    "/classes",                         classes.create,         None, None),
     ("GET",     "/classes/new",                     classes.new,            None, None),
     ("GET",     "/classes/{class_id}",              classes.show,           None, None),
     ("GET",     "/classes/{class_id}/edit",         classes.edit,           None, None),
