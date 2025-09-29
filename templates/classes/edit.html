@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Students in Class {{request.path_params.get("class_id")}}</h2>
+    <div>
+        <h1>Edit {{class.name}}</h1>
+        <a href="/classes/{{class.id}}/delete" hx-delete="/classes/{{class.id}}" hx-swap="none">Delete</a>
+    </div>
+    <h2>Class Information</h2>
+    <form 
+        hx-put="/classes/{{request.path_params.get('class_id')}}"
+        hx-target="body"
+        >
+        <div class="input-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="{{class.name}}" autofocus/>
+        </div>
+        <span id="name-error" class="error">{% if form_errors and form_errors.get("name") %}{{form_errors.get("name")}}{% endif %}</span>
+        <button type="submit">Save</button>
+    </form>
+    <h2>Students</h2>
     {% if students %}
     <ul>
         {% for student in students  %}
-            <li>{{student}}<button>Edit</button><button>Delete</button></li>
+            <li>{{student.name}}<button>Edit</button><button>Delete</button></li>
         {% endfor %}
     </ul>
     {% else %}

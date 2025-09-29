@@ -1,17 +1,22 @@
 from fastapi import APIRouter
 
-from controller import get_class_edit, get_homepage, get_class_detail, make_teams
+from controllers import public
+from controllers import classes
 
 router = APIRouter()
 
 # routes follow ('method', 'path', 'endpoint/handler', 'tags', 'dependencies')
 routes = [
-    ("GET",     "/",                                get_homepage,       None, None),
+    ("GET",     "/",                                public.get_homepage,    None, None),
+    ("POST",    "/classes",                         classes.create,         None, None),
+    ("GET",     "/classes/new",                     classes.new,            None, None),
+    ("GET",     "/classes/{class_id}",              classes.show,           None, None),
+    ("GET",     "/classes/{class_id}/edit",         classes.edit,           None, None),
+    ("PUT",     "/classes/{class_id}",              classes.update,         None, None),
+    ("DELETE",  "/classes/{class_id}",              classes.delete,         None, None),
+    ("GET",     "/classes/{class_id}/delete",       classes.delete,         None, None),
 
-    ("GET",     "/classes/{class_id}",              get_class_detail,   None, None),
-    ("GET",     "/classes/{class_id}/edit",         get_class_edit,     None, None),
-
-    ("POST",    "/make-teams",                      make_teams,         None, None)
+    ("POST",    "/make-teams",                      public.make_teams,      None, None)
 ]
 
 for method, path, handler, tags, deps in routes:

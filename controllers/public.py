@@ -1,90 +1,25 @@
 import math
 import random
+import sqlite3
 
 from fastapi import Request, Response
 from fastapi.responses import HTMLResponse
 
+from structs import ClassRow
 from templates import templates
 
 
 async def get_homepage(request: Request) -> HTMLResponse:
-    classes_param = request.query_params.get("classes")
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name FROM classes;")
+        classes = [ClassRow(*row) for row in cursor.fetchall()]
+        cursor.close()
 
-    classes = [
-        "Class A",
-        "Class B",
-        "Class C",
-        "Class D",
-        "Class E",
-        "Class F"
-    ]
-    
-    if classes_param == "none":
-        classes = None
-    elif classes_param == "one":
-        classes = [
-            "Class A",
-        ]
-        
-    # elif request.query
     return templates.TemplateResponse(
         request=request,
         name="index.html",
         context={"classes": classes}
-    )
-
-
-async def get_class_detail(request: Request) -> HTMLResponse:
-    students_param = request.query_params.get("students")
-
-    students = [
-        "Student A",
-        "Student B",
-        "Student C",
-        "Student D",
-        "Student E",
-        "Student F",
-        "Student G",
-        "Student H",
-        "Student I",
-        "Student J",
-        "Student K",
-        "Student L",
-    ]
-
-    if students_param == "none":
-        students = None
-    elif students_param == "one":
-        students = [
-            "Student A"
-        ]
-
-    return templates.TemplateResponse(
-        request=request,
-        name="classes/show.html",
-        context={"students": students}
-    )
-
-async def get_class_edit(request: Request) -> HTMLResponse:
-    students = [
-        "Student A",
-        "Student B",
-        "Student C",
-        "Student D",
-        "Student E",
-        "Student F",
-        "Student G",
-        "Student H",
-        "Student I",
-        "Student J",
-        "Student K",
-        "Student L",
-    ]
-    
-    return templates.TemplateResponse(
-        request=request,
-        name="classes/edit.html",
-        context={"students": students}
     )
 
 
