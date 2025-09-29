@@ -12,6 +12,7 @@ routes = [
     ("GET",     "/classes/new",                     classes.new,            None, None),
     ("GET",     "/classes/{class_id}",              classes.show,           None, None),
     ("GET",     "/classes/{class_id}/edit",         classes.edit,           None, None),
+    ("PUT",     "/classes/{class_id}",              classes.update,         None, None),
 
     ("POST",    "/make-teams",                      public.make_teams,      None, None)
 ]
