@@ -4,7 +4,7 @@ import sqlite3
 from typing import Annotated
 
 from fastapi import Depends, Request, Response
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from dependencies import requires_user
 from structs import ClassRow, UserRow
@@ -35,7 +35,16 @@ async def get_homepage(
     )
 
 
-async def make_teams(request: Request) -> HTMLResponse:
+async def make_teams(
+    request: Request,
+    user: Annotated[UserRow, Depends(requires_user)]
+    ) -> HTMLResponse:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+
     form_data = await request.form()
     number_of_teams = form_data.get("number-of-teams")
     students = form_data.getlist("students")
