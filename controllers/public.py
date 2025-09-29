@@ -1,25 +1,37 @@
 import math
 import random
 import sqlite3
+from typing import Annotated
 
-from fastapi import Request, Response
+from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse
 
-from structs import ClassRow
+from dependencies import requires_user
+from structs import ClassRow, UserRow
 from templates import templates
 
 
-async def get_homepage(request: Request) -> HTMLResponse:
+async def get_homepage(
+    request: Request,
+    user: Annotated[UserRow, Depends(requires_user)]
+    ) -> HTMLResponse:
+    if not user:
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={"user": user, "classes": None}
+        )
+
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT id, name FROM classes;")
+        cursor.execute("SELECT id, name FROM classes WHERE owner_id = ?;", (user.id,))
         classes = [ClassRow(*row) for row in cursor.fetchall()]
         cursor.close()
 
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"classes": classes}
+        context={"user": user, "classes": classes}
     )
 
 
