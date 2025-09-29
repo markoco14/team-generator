@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from dependencies import requires_user
+from dependencies import requires_owner, requires_user
 from structs import ClassRow, StudentCreate, StudentRow, UserRow
 from templates import templates
 
@@ -60,7 +60,14 @@ async def create(
 
     return RedirectResponse(status_code=303, url="/")
 
-async def show(request: Request, class_id: int) -> HTMLResponse:
+async def show(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    if not user:
+        return RedirectResponse(status_code=303, url="/")
+
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
