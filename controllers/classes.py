@@ -94,3 +94,13 @@ async def update(request: Request, class_id: int) -> HTMLResponse:
         cursor.execute(f"UPDATE CLASSES SET name = ? WHERE id = ?", (name, class_id))
 
     return Response(status_code=200, headers={"Hx-Refresh": "true"})
+
+async def delete(request: Request, class_id: int) -> Response:
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"DELETE FROM classes WHERE id = ?", (class_id,))
+    
+    if request.headers.get("Hx-Request"):
+        return Response(status_code=200, headers={"Hx-Redirect": f"/"})
+    
+    return RedirectResponse(status_code=303, url="/")

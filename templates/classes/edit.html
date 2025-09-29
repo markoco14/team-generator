@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Edit {{class.name}}</h1>
+    <div>
+        <h1>Edit {{class.name}}</h1>
+        <a href="/classes/{{class.id}}/delete" hx-delete="/classes/{{class.id}}" hx-swap="none">Delete</a>
+    </div>
     <h2>Class Information</h2>
     <form 
         hx-put="/classes/{{request.path_params.get('class_id')}}"
