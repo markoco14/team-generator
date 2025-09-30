@@ -1,13 +1,15 @@
 import math
 import random
 import sqlite3
+import time
 from typing import Annotated
+import uuid
 
 from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from dependencies import requires_user
-from structs import ClassRow, UserRow
+from structs import ClassRow, SessionCreate, UserRow
 from templates import templates
 
 
@@ -44,8 +46,28 @@ async def get_homepage(
 async def login(request: Request):
     form_data = await request.form()
     email = form_data.get("email")
+
+    with sqlite3.connect("db.sqlite3") as conn:
+        conn.execute("PRAGMA foreign_keys = ON;")
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, email FROM users WHERE email = ?", (email,))
+        user = cursor.fetchone()
+    
+    if not user:
+        return RedirectResponse(status_code=303, url="/")
+    
+    user = UserRow(*user)
+    token = str(uuid.uuid4())
+    expires_at = int(time.time()) + 3600
+    new_session = SessionCreate(token=token, user_id=user.id, expires_at=expires_at)
+
+    with sqlite3.connect("db.sqlite3") as conn:
+        conn.execute("PRAGMA foreign_keys = ON;")
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)", (new_session.token, new_session.user_id, new_session.expires_at))
+    
     response = RedirectResponse(status_code=303, url="/")
-    response.set_cookie(key="session-id", value=email)
+    response.set_cookie(key="session-id", value=token)
     return response
 
 
