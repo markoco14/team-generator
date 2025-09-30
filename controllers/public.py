@@ -16,10 +16,16 @@ async def get_homepage(
     user: Annotated[UserRow, Depends(requires_user)]
     ) -> HTMLResponse:
     if not user:
+        with sqlite3.connect("db.sqlite3") as conn:
+            conn.execute("PRAGMA foreign_keys = ON;")
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, email FROM users;")
+            users = [UserRow(*row) for row in cursor.fetchall()]
+            
         return templates.TemplateResponse(
             request=request,
             name="index.html",
-            context={"user": user, "classes": None}
+            context={"user": None, "users": users}
         )
 
     with sqlite3.connect("db.sqlite3") as conn:
@@ -33,6 +39,14 @@ async def get_homepage(
         name="index.html",
         context={"user": user, "classes": classes}
     )
+
+
+async def login(request: Request):
+    form_data = await request.form()
+    email = form_data.get("email")
+    response = RedirectResponse(status_code=303, url="/")
+    response.set_cookie(key="session-id", value=email)
+    return response
 
 
 async def make_teams(

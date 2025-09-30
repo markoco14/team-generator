@@ -8,6 +8,7 @@ router = APIRouter()
 # routes follow ('method', 'path', 'endpoint/handler', 'dependencies')
 routes = [
     ("GET",     "/",                                                public.get_homepage,    [Depends(requires_user)]),
+    ("POST",    "/login",                                           public.login,           None),
     ("POST",    "/make-teams",                                      public.make_teams,      [Depends(requires_user)]),
 
     ("POST",    "/classes",                                         classes.create,         [Depends(requires_user)]),
