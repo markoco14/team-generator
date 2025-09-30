@@ -249,3 +249,50 @@ async def edit_student(
         name="classes/_edit-student.html",
         context={"class": class_row, "student": student_row}
     )
+
+
+async def update_student(
+    request: Request,
+    student_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> Response:
+    """
+    Updates a student resource.
+    Only exposes updating the name as students can't be moved between classes.
+    Triggers a page refresh with the response.
+    """
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    
+    form_data = await request.form()
+    name = form_data.get("student")
+
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE STUDENTS SET name = ? WHERE id = ?", (name, student_id,))
+
+    return Response(status_code=200, headers={"Hx-Refresh": "true"})
+
+
+async def delete_student(
+    request: Request,
+    student_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> Response:
+    """
+    Deletes a student resource.
+    Responds with a response. No visible client side confirmation except the student disappearing, for now.
+    """
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM students WHERE id = ?", (student_id,))
+
+    return Response(status_code=200, content="Student deleted successfully")

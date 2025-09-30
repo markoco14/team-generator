@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from controllers import classes, public, students
+from controllers import classes, public
 from dependencies import requires_owner, requires_user
 
 router = APIRouter()
@@ -20,10 +20,8 @@ routes = [
     ("GET",     "/classes/{class_id}/students",                     classes.students,       [Depends(requires_owner)]),
     ("POST",    "/classes/{class_id}/students/batch",               classes.create_batch,   [Depends(requires_owner)]),
     ("GET",     "/classes/{class_id}/students/{student_id}/edit",   classes.edit_student,   [Depends(requires_owner)]),
-
-    ("PUT",     "/students/{student_id}",                           students.update,        None),
-    ("DELETE",  "/students/{student_id}",                           students.delete,        None),
-
+    ("PUT",     "/classes/{class_id}/students/{student_id}",        classes.update_student, [Depends(requires_owner)]),
+    ("DELETE",  "/classes/{class_id}/students/{student_id}",        classes.delete_student, [Depends(requires_owner)]),
 ]
 
 for method, path, handler, deps in routes:
