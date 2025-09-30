@@ -1,14 +1,15 @@
 import sqlite3
 from structs import ClassOwnerRow, UserRow
 
+USER_ID = 1
 
 def requires_user():
     # needs logic to get user from session
-    return UserRow(id=1)
+    return UserRow(id=USER_ID)
 
 def requires_owner(class_id: int):
     # needs logic to get user from session
-    user = UserRow(id=1)
+    user = UserRow(id=USER_ID)
 
     with sqlite3.connect("db.sqlite3") as conn:
         conn.execute("PRAGMA foreign_keys = ON;")
@@ -19,4 +20,4 @@ def requires_owner(class_id: int):
         if user.id != class_row.owner_id:
             return None
         
-    return UserRow(id=1)
+    return user
