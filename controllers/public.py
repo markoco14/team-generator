@@ -5,6 +5,7 @@ import time
 from typing import Annotated
 import uuid
 
+from email_validator import validate_email
 from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
@@ -56,6 +57,12 @@ async def login(request: Request):
     form_errors = {}
     if not email:
         form_errors["email"] = "You need an email"
+
+    if not form_errors:
+        try:
+            validate_email(email)
+        except Exception as e:
+            form_errors["email"] = "This email isn't valid"
 
     if not password:
         form_errors["password"] = "You need a password"
