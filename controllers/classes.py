@@ -1,20 +1,37 @@
 import sqlite3
+from typing import Annotated
 
-from fastapi import Request, Response
+from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from structs import ClassRow, StudentCreate, StudentRow
+from dependencies import requires_owner, requires_user
+from structs import ClassRow, StudentCreate, StudentRow, UserRow
 from templates import templates
 
 
-async def new(request: Request) -> HTMLResponse:
+async def new(
+    request: Request,
+    user: Annotated[UserRow, Depends(requires_user)]
+    ) -> HTMLResponse:
+    if not user:
+        return RedirectResponse(status_code=303, url="/")
+    
     return templates.TemplateResponse(
         request=request,
         name="classes/new.html",
         context={"form_data": None, "form_errors": None}
     )
 
-async def create(request: Request) -> Response:
+async def create(
+    request: Request,
+    user: Annotated[UserRow, Depends(requires_user)]
+    ) -> Response:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    
     form_data = await request.form()
     name = form_data.get("name")
 
@@ -33,8 +50,9 @@ async def create(request: Request) -> Response:
         )
     
     with sqlite3.connect("db.sqlite3") as conn:
+        conn.execute("PRAGMA foreign_keys = ON;")
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO classes (name) VALUES (?)", (name,))
+        cursor.execute("INSERT INTO classes (name, owner_id) VALUES (?, ?)", (name, user.id))
         conn.commit()
     
     if request.headers.get("Hx-Request"):
@@ -42,7 +60,14 @@ async def create(request: Request) -> Response:
 
     return RedirectResponse(status_code=303, url="/")
 
-async def show(request: Request, class_id: int) -> HTMLResponse:
+async def show(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    if not user:
+        return RedirectResponse(status_code=303, url="/")
+
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")

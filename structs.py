@@ -1,6 +1,10 @@
 from collections import namedtuple
 
+UserRow = namedtuple("UserRow", ["id"])
+
 ClassRow = namedtuple("ClassRow", ["id", "name"])
+
+ClassOwnerRow = namedtuple("ClassRow", ["id", "name", "owner_id"])
 
 StudentRow = namedtuple("StudentRow", ["id", "name", "class_id"])
 
