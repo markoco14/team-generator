@@ -18,16 +18,10 @@ async def get_homepage(
     user: Annotated[UserRow, Depends(requires_user)]
     ) -> HTMLResponse:
     if not user:
-        with sqlite3.connect("db.sqlite3") as conn:
-            conn.execute("PRAGMA foreign_keys = ON;")
-            cursor = conn.cursor()
-            cursor.execute("SELECT id, email FROM users;")
-            users = [UserRow(*row) for row in cursor.fetchall()]
-
         return templates.TemplateResponse(
             request=request,
             name="index.html",
-            context={"user": None, "users": users}
+            context={"user": None, "classes": None}
         )
 
     with sqlite3.connect("db.sqlite3") as conn:
@@ -45,18 +39,63 @@ async def get_homepage(
 
 async def login(request: Request):
     form_data = await request.form()
-    email = form_data.get("email")
+    email = form_data.get("username")
+    password = form_data.get("password")
+
+    form_errors = {}
+    if not email:
+        form_errors["email"] = "You need an email"
+
+    if not password:
+        form_errors["password"] = "You need a password"
+
+    if form_errors:
+        if request.headers.get("hx-request"):
+            response = templates.TemplateResponse(
+                request=request,
+                name="index.html",
+                headers={"hx-reswap": "innerHTML", "hx-retarget": "body"},
+                context={"form_values": form_data, "form_errors": form_errors}
+            )
+            return response
+        
+        return RedirectResponse(status_code=303, url="/")
 
     with sqlite3.connect("db.sqlite3") as conn:
         conn.execute("PRAGMA foreign_keys = ON;")
         cursor = conn.cursor()
-        cursor.execute("SELECT id, email FROM users WHERE email = ?", (email,))
+        cursor.execute("SELECT id, email, password FROM users WHERE email = ?", (email,))
         user = cursor.fetchone()
     
     if not user:
+        form_errors["password"] = "Email or password is incorrect."
+        if request.headers.get("hx-request"):
+            response = templates.TemplateResponse(
+                request=request,
+                name="index.html",
+                headers={"hx-reswap": "innerHTML", "hx-retarget": "body"},
+                context={"form_values": form_data, "form_errors": form_errors}
+            )
+            return response
+        
+        return RedirectResponse(status_code=303, url="/")
+
+    if password != user[2]:
+        form_errors["password"] = "Email or password is incorrect."
+
+    if form_errors:
+        if request.headers.get("hx-request"):
+            response = templates.TemplateResponse(
+                request=request,
+                name="index.html",
+                headers={"hx-reswap": "innerHTML", "hx-retarget": "body"},
+                context={"form_values": form_data, "form_errors": form_errors}
+            )
+            return response
+        
         return RedirectResponse(status_code=303, url="/")
     
-    user = UserRow(*user)
+    user = UserRow(id=user[0], email=user[1])
     token = str(uuid.uuid4())
     expires_at = int(time.time()) + 3600
     new_session = SessionCreate(token=token, user_id=user.id, expires_at=expires_at)
@@ -65,8 +104,12 @@ async def login(request: Request):
         conn.execute("PRAGMA foreign_keys = ON;")
         cursor = conn.cursor()
         cursor.execute("INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)", (new_session.token, new_session.user_id, new_session.expires_at))
-    
-    response = RedirectResponse(status_code=303, url="/")
+
+    if request.headers.get("hx-request"):
+        response = Response(status_code=200, headers={"hx-redirect": "/"})
+    else:
+        response = RedirectResponse(status_code=303, url="/")
+
     response.set_cookie(key="session-id", value=token)
     return response
 

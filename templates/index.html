@@ -3,11 +3,19 @@
 {% if not user %}
     <h1>Sign In</h1>
     <p>the form will go here</p>
-    <ul>
-        {% for user in users %}
-            <li><form action="login" method="POST"><input type="hidden" name="email" value="{{user.email}}"/><button type="submit">{{user.email}}</button></form></li>
-        {% endfor %}
-    </ul>
+    <form action="/login" method="POST" hx-post="/login" hx-swap="none">
+        <div>
+            <label for="username">Email</label>
+            <input type="text" name="username" autofocus autocomplete="username" value="{% if form_values and form_values.get('username') %}{{form_values.get('username')}}{% endif %}"/>
+            <span class="error">{% if form_errors and form_errors.get("email") %}{{form_errors.get("email")}}{% endif %}</span>            
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" value="{% if form_values and form_values.get('password') %}{{form_values.get('password')}}{% endif %}"/>
+            <span class="error">{% if form_errors and form_errors.get("password") %}{{form_errors.get("password")}}{% endif %}</span>            
+        </div>
+        <button type="submit">Log in</button>
+    </form>
 {% else %}
     <h1>Welcome to the home of all things teams</h1>
     <p>Make quick, easy teams for all your classes. Spend more time playing and less time setting up.</p>
