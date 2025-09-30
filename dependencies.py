@@ -3,13 +3,15 @@ import sqlite3
 from fastapi import Request
 from structs import ClassOwnerRow, UserRow
 
-USER_ID = 1
 
 def requires_user(request: Request):
     session_token = request.cookies.get("session-id")
 
     if not session_token:
         return None
+    
+    # TODO: get session from db
+    # and use that user_id to look up the user
     
     with sqlite3.connect("db.sqlite3") as conn:
         conn.execute("PRAGMA foreign_keys = ON;")
@@ -20,9 +22,22 @@ def requires_user(request: Request):
 
     return user
 
-def requires_owner(class_id: int):
-    # needs logic to get user from session
-    user = UserRow(id=USER_ID)
+
+def requires_owner(request: Request, class_id: int):
+    session_token = request.cookies.get("session-id")
+
+    if not session_token:
+        return None
+    
+    # TODO: get session from db
+    # and use that user_id to look up the user
+    
+    with sqlite3.connect("db.sqlite3") as conn:
+        conn.execute("PRAGMA foreign_keys = ON;")
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, email FROM users WHERE email = ?", (session_token, ))
+
+        user = UserRow(*cursor.fetchone())
 
     with sqlite3.connect("db.sqlite3") as conn:
         conn.execute("PRAGMA foreign_keys = ON;")
