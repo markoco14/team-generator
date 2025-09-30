@@ -3,6 +3,9 @@
         <span>TeamMaker</span>
         <nav>
             <a href="/">Home</a>
+            {% if user %}
+            <a href="/logout">Logout</a>
+            {% endif %}
         </nav>
     </div>
 </header>

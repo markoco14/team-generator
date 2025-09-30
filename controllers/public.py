@@ -21,7 +21,7 @@ async def get_homepage(
             cursor = conn.cursor()
             cursor.execute("SELECT id, email FROM users;")
             users = [UserRow(*row) for row in cursor.fetchall()]
-            
+
         return templates.TemplateResponse(
             request=request,
             name="index.html",
@@ -46,6 +46,13 @@ async def login(request: Request):
     email = form_data.get("email")
     response = RedirectResponse(status_code=303, url="/")
     response.set_cookie(key="session-id", value=email)
+    return response
+
+
+async def logout(request: Request):
+    response = RedirectResponse(status_code=303, url="/")
+    if request.cookies.get("session-id"):
+        response.delete_cookie(key="session-id")
     return response
 
 
