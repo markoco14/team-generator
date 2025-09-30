@@ -5,7 +5,7 @@ from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from dependencies import requires_owner, requires_user
-from structs import ClassRow, StudentCreate, StudentRow, UserRow
+from structs.structs import ClassRow, StudentCreate, StudentRow, UserRow
 from templates import templates
 
 

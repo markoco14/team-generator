@@ -3,7 +3,7 @@ import random
 
 from faker import Faker
 
-from structs import ClassRow
+from structs.structs import ClassRow
 
 
 def seed_users() -> None:
