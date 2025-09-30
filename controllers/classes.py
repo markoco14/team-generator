@@ -14,6 +14,9 @@ async def new(
     user: Annotated[UserRow, Depends(requires_user)]
     ) -> HTMLResponse:
     if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
         return RedirectResponse(status_code=303, url="/")
     
     return templates.TemplateResponse(
@@ -66,6 +69,9 @@ async def show(
     user: Annotated[UserRow, Depends(requires_owner)]
     ) -> HTMLResponse:
     if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
         return RedirectResponse(status_code=303, url="/")
 
     with sqlite3.connect("db.sqlite3") as conn:
@@ -80,7 +86,16 @@ async def show(
         context={"students": students}
     )
 
-async def edit(request: Request, class_id: int) -> HTMLResponse:
+async def edit(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         cursor.execute(f"SELECT id, name FROM classes WHERE id = {class_id};")

@@ -13,7 +13,7 @@ routes = [
     ("POST",    "/classes",                                         classes.create,         [Depends(requires_user)]),
     ("GET",     "/classes/new",                                     classes.new,            [Depends(requires_user)]),
     ("GET",     "/classes/{class_id}",                              classes.show,           [Depends(requires_owner)]),
-    ("GET",     "/classes/{class_id}/edit",                         classes.edit,           None),
+    ("GET",     "/classes/{class_id}/edit",                         classes.edit,           [Depends(requires_owner)]),
     ("PUT",     "/classes/{class_id}",                              classes.update,         None),
     ("DELETE",  "/classes/{class_id}",                              classes.delete,         None),
     ("GET",     "/classes/{class_id}/delete",                       classes.delete,         None),
