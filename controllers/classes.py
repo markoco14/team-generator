@@ -96,6 +96,7 @@ async def edit(
             return Response(status_code=401, headers={"Hx-Redirect": "/"})
         
         return RedirectResponse(status_code=303, url="/")
+    
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         cursor.execute(f"SELECT id, name FROM classes WHERE id = {class_id};")
@@ -110,7 +111,17 @@ async def edit(
         context={"class": class_row, "students": students}
     )
 
-async def update(request: Request, class_id: int) -> HTMLResponse:
+async def update(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    
     form_data = await request.form()
     name = form_data.get('name')
 
@@ -135,7 +146,17 @@ async def update(request: Request, class_id: int) -> HTMLResponse:
 
     return Response(status_code=200, headers={"Hx-Refresh": "true"})
 
-async def delete(request: Request, class_id: int) -> Response:
+async def delete(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> Response:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         cursor.execute(f"DELETE FROM classes WHERE id = ?", (class_id,))
@@ -145,8 +166,18 @@ async def delete(request: Request, class_id: int) -> Response:
     
     return RedirectResponse(status_code=303, url="/")
 
-async def students(request: Request, class_id: int) -> Response:
+async def students(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> Response:
     """Return the batch add student page"""
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         cursor.execute(f"SELECT id, name FROM classes WHERE id = {class_id};")
@@ -159,7 +190,17 @@ async def students(request: Request, class_id: int) -> Response:
     )
     
 
-async def create_batch(request: Request, class_id: int) -> HTMLResponse:
+async def create_batch(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    
     form_data = await request.form()
     students = form_data.get("students")
     
@@ -181,7 +222,19 @@ async def create_batch(request: Request, class_id: int) -> HTMLResponse:
     return RedirectResponse(status_code=303, url=f"/classes/{class_id}/edit")
 
 
-async def edit_student(request: Request, class_id: int, student_id: int):
+async def edit_student(
+    request: Request,
+    class_id: int,
+    student_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    """Returns the inline edit student form"""
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+    
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
         
