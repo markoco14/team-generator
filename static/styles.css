@@ -23,6 +23,10 @@ header > div {
 
 }
 
+.example {
+    margin: 0;
+}
+
 form {
     max-width: 500px;
 
