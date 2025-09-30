@@ -9,7 +9,8 @@ from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from dependencies import requires_user
-from structs import ClassRow, SessionCreate, UserRow
+from structs.structs import ClassRow, SessionCreate, UserRow
+from structs.pages import HomePageData
 from templates import templates
 
 
@@ -21,7 +22,12 @@ async def get_homepage(
         return templates.TemplateResponse(
             request=request,
             name="index.html",
-            context={"user": None, "classes": None}
+            context=HomePageData(
+                user=None,
+                classes=None,
+                form_values=None,
+                form_errors=None
+            )
         )
 
     with sqlite3.connect("db.sqlite3") as conn:
@@ -33,7 +39,12 @@ async def get_homepage(
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"user": user, "classes": classes}
+        context=HomePageData(
+            user=user,
+            classes=classes,
+            form_values=None,
+            form_errors=None
+        )
     )
 
 
@@ -55,11 +66,16 @@ async def login(request: Request):
                 request=request,
                 name="index.html",
                 headers={"hx-reswap": "innerHTML", "hx-retarget": "body"},
-                context={"form_values": form_data, "form_errors": form_errors}
+                context=HomePageData(
+                    user=None,
+                    classes=None,
+                    form_values=form_data,
+                    form_errors=form_errors
+                )
             )
-            return response
-        
-        return RedirectResponse(status_code=303, url="/")
+        else:
+            response = RedirectResponse(status_code=303, url="/")
+        return response
 
     with sqlite3.connect("db.sqlite3") as conn:
         conn.execute("PRAGMA foreign_keys = ON;")
@@ -74,11 +90,17 @@ async def login(request: Request):
                 request=request,
                 name="index.html",
                 headers={"hx-reswap": "innerHTML", "hx-retarget": "body"},
-                context={"form_values": form_data, "form_errors": form_errors}
+                context=HomePageData(
+                    user=None,
+                    classes=None,
+                    form_values=form_data,
+                    form_errors=form_errors
+                )
             )
-            return response
-        
-        return RedirectResponse(status_code=303, url="/")
+        else:
+            response = RedirectResponse(status_code=303, url="/")
+        return response
+    
 
     if password != user[2]:
         form_errors["password"] = "Email or password is incorrect."
@@ -89,11 +111,16 @@ async def login(request: Request):
                 request=request,
                 name="index.html",
                 headers={"hx-reswap": "innerHTML", "hx-retarget": "body"},
-                context={"form_values": form_data, "form_errors": form_errors}
+                context=HomePageData(
+                    user=None,
+                    classes=None,
+                    form_values=form_data,
+                    form_errors=form_errors
+                )
             )
-            return response
-        
-        return RedirectResponse(status_code=303, url="/")
+        else:
+            response = RedirectResponse(status_code=303, url="/")
+        return response
     
     user = UserRow(id=user[0], email=user[1])
     token = str(uuid.uuid4())
