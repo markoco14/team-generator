@@ -3,12 +3,12 @@
 {% if not user %}
     <h1>Sign In</h1>
     <form action="/login" method="POST" hx-post="/login" hx-swap="none">
-        <div>
+        <div class="input-group">
             <label for="username">Email</label>
             <input type="text" name="username" autofocus autocomplete="username" value="{% if form_values and form_values.get('username') %}{{form_values.get('username')}}{% endif %}"/>
             <span class="error">{% if form_errors and form_errors.get("email") %}{{form_errors.get("email")}}{% endif %}</span>            
         </div>
-        <div>
+        <div class="input-group">
             <label for="password">Password</label>
             <input type="password" name="password" value="{% if form_values and form_values.get('password') %}{{form_values.get('password')}}{% endif %}"/>
             <span class="error">{% if form_errors and form_errors.get("password") %}{{form_errors.get("password")}}{% endif %}</span>            
