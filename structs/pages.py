@@ -1,6 +1,6 @@
 from typing import List, TypedDict
 
-from structs.structs import ClassRow, UserRow
+from structs.entities import ClassRow, UserRow
 
 
 class HomePageData(TypedDict):

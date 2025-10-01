@@ -1,7 +1,7 @@
 import sqlite3
 
 from fastapi import Request
-from structs.structs import ClassOwnerRow, SessionRow, UserRow
+from structs.entities import ClassOwnerRow, SessionRow, UserRow
 
 
 def requires_user(request: Request):

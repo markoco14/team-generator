@@ -10,7 +10,7 @@ from fastapi import Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 
 from dependencies import requires_user
-from structs.structs import ClassRow, SessionCreate, UserRow
+from structs.entities import ClassRow, SessionCreate, UserRow
 from structs.pages import HomePageData
 from templates import templates
 from utils import verify_password
