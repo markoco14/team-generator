@@ -152,6 +152,10 @@ async def login(request: Request):
 async def logout(request: Request):
     response = RedirectResponse(status_code=303, url="/")
     if request.cookies.get("session-id"):
+        with sqlite3.connect("db.sqlite3") as conn:
+            conn.execute("PRAGMA foreign_keys = ON;")
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM sessions WHERE token = ?", (request.cookies.get("session-id"), ))
         response.delete_cookie(key="session-id")
     return response
 
