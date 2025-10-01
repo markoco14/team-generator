@@ -13,6 +13,7 @@ from dependencies import requires_user
 from structs.structs import ClassRow, SessionCreate, UserRow
 from structs.pages import HomePageData
 from templates import templates
+from utils import verify_password
 
 
 async def get_homepage(
@@ -108,8 +109,8 @@ async def login(request: Request):
             response = RedirectResponse(status_code=303, url="/")
         return response
     
-
-    if password != user[2]:
+    password_verified = await verify_password(user[2], password)
+    if not password_verified:
         form_errors["password"] = "Email or password is incorrect."
 
     if form_errors:
