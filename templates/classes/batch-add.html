@@ -7,16 +7,24 @@ Batch Add Students | TeamMaker
     <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
     <form action="/classes/{{class.id}}/students/batch" method="POST">
         <p>Enter each students name on a new line without commas. Names on the same line will be added together</p>
-        <details>
-            <summary>See example</summary>
+        <details open>
+            <summary>Example</summary>
             <div>
-                Student 1 <br>
-                Student 2 <br>
-                Student 3 <br>
+                <p class="example">
+                Student 1
+                </p>
+                <p class="example">
+                Student 2
+                </p>
+                <p class="example">
+                Student 3
+                </p>
             </div>
         </details>
-        <label for="students">Student names</label>
-        <textarea id="students" name="students" rows="5" autofocus></textarea>
+        <div class="input-group">
+            <label for="students">Student names</label>
+            <textarea id="students" name="students" rows="5" autofocus></textarea>
+        </div>
         <button type="submit">Save</button>
     </form>
     <script>
