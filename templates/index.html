@@ -13,7 +13,10 @@
             <input id="password" type="password" name="password" value="{% if form_values and form_values.get('password') %}{{form_values.get('password')}}{% endif %}"/>
             <span class="error">{% if form_errors and form_errors.get("password") %}{{form_errors.get("password")}}{% endif %}</span>            
         </div>
-        <button type="submit">Log in</button>
+        <button type="submit">
+        <span class="indicating-hide">Log in</span>
+        <span class="htmx-indicator">Logging in</span>
+        </button>
     </form>
 {% else %}
     <h1>Welcome to the home of all things teams</h1>
