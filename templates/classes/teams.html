@@ -4,17 +4,20 @@
 <div class="team-page">
 
     <section id="teams" class="teams-container">
-        <p>You haven't made any teams yet</p>
+        <div class="center">
+            <p>You haven't made any teams yet</p>
+        </div>
+        
     </section>
 
     <section class="view">
-        <h2>Students here today:</h2>
+        <h2>Students attendance:</h2>
         {% if students %}
         <form 
             hx-post="/make-teams"
             hx-target="#teams"
             >
-            <label for="quantity">
+            <label for="quantity" class="quantity">
                 <span>How many teams?</span>
                 <input id="quantity" name="number-of-teams" type="number" value="2"/>
             </label>
@@ -22,6 +25,7 @@
             <label for="student-{{student[0]}}" class="toggle">
                 <span>{{student.name}}</span>
                 <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
+                <span class="track"></span>
             </label>
             {% endfor %}
             <button id="teams-button" type="submit">Make Teams</button>

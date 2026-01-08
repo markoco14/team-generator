@@ -1,3 +1,8 @@
+:root {
+    --toggle-green: hsl(128 90 45);
+    --toggle-red: hsl(351 91 56);
+}
+
 @view-transition {
     navigation: auto;
 }
@@ -67,14 +72,8 @@ form {
         margin: 0 0 0.5rem 0;
     }
 
-    .quantity {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-between;
-    }
-
     label {
+        position: relative;
         padding-block: 0.5rem;
         border-bottom: 1px solid black;
         display: flex;
@@ -82,11 +81,56 @@ form {
         justify-content: space-between;
     }
 
-    label:last-of-type {
+    label.quantity {
+        align-items: center;
+        margin-bottom: 1rem;
         border-bottom: 0;
     }
 
+    label.quantity > input {
+        text-align: right;
+        padding-block: 0.25rem;
+        padding-inline: 0.5rem;
+    }
 
+    label:last-of-type {
+        border-bottom: 0;
+    }
+    
+    .toggle input {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .track {
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        border-radius: 12px;
+        background-color: var(--toggle-red);
+        position: relative;
+        transition: background-color 0.2s ease-in;
+    }
+
+    .track::after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.2s;
+    }
+
+    .toggle input:checked + .track {
+        background-color: var(--toggle-green);
+    }
+
+    .toggle input:checked + .track::after {
+        transform: translateX(20px);
+    }
 
     .error {
         height: 16px;
@@ -137,13 +181,33 @@ ul {
     overflow-y: auto;
     scroll-snap-type: y mandatory;
     padding-inline: 0.5rem;
-    
+
+
     section {
         scroll-snap-align: start;
         height: 100vh;
         overflow-y: auto;
         padding-block: 3rem;
     }
+}
+
+@media screen and (min-width: 600px) {
+    .team-page {
+        height: auto;
+        padding-inline: 0;
+
+        section {
+            max-width: 600px;
+            margin-inline: auto;
+            height: auto;
+        }
+    }
+}
+
+.center {
+    height: 100%;
+    display: grid;
+    place-content: center;
 }
 
 .team {
