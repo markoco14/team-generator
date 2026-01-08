@@ -24,6 +24,7 @@ routes = [
     ("GET",     "/classes/{class_id}/students/{student_id}/edit",   classes.edit_student,   [Depends(requires_owner)]),
     ("PUT",     "/classes/{class_id}/students/{student_id}",        classes.update_student, [Depends(requires_owner)]),
     ("DELETE",  "/classes/{class_id}/students/{student_id}",        classes.delete_student, [Depends(requires_owner)]),
+    ("GET",     "/classes/{class_id}/teams",                        classes.teams,          [Depends(requires_owner)]),
 ]
 
 for method, path, handler, deps in routes:

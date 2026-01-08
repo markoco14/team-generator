@@ -296,3 +296,27 @@ async def delete_student(
         cursor.execute("DELETE FROM students WHERE id = ?", (student_id,))
 
     return Response(status_code=200, content="Student deleted successfully")
+
+
+async def teams(
+    request: Request,
+    class_id: int,
+    user: Annotated[UserRow, Depends(requires_owner)]
+    ) -> HTMLResponse:
+    if not user:
+        if request.headers.get("Hx-Request"):
+            return Response(status_code=401, headers={"Hx-Redirect": "/"})
+        
+        return RedirectResponse(status_code=303, url="/")
+
+    with sqlite3.connect("db.sqlite3") as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
+        students = [StudentRow(*row) for row in cursor.fetchall()]
+        cursor.close()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="classes/teams.html",
+        context={"students": students}
+    )
