@@ -4,31 +4,5 @@
     <p>Manage your class information and student list <a href="/classes/{{request.path_params.get('class_id')}}/edit">here</a>.</p>
     <h2>Make Your Teams</h2>
     <p>Remove absent students, choose your number of teams, and get new teams as often as you want.</p>
-    <h2>Your teams</h2>
-    <div id="teams">
-        <p>You haven't made any teams yet</p>
-    </div>
-    <h2>Students here today:</h2>
-    {% if students %}
-    <form 
-        hx-post="/make-teams"
-        hx-target="#teams"
-        >
-        <div class="input-group quantity">
-            <label for="quantity">How many teams?</label>
-            <input id="quantity" name="number-of-teams" type="number" value="2"/>
-        </div>
-        {% for student in students %}
-        <div class="checkbox-group">
-            <label for="student-{{student[0]}}">
-                <span>{{student.name}}</span>
-                <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
-            </label>
-        </div>
-        {% endfor %}
-        <button id="teams-button" type="submit">Make Teams</button>
-    </form>
-    {% else %}
-    <p>Oops. There are no students in this class.</p>
-    {% endif %}
+    <a href="/classes/{{request.path_params.get('class_id')}}/teams">Make teams now</a>
 {% endblock content %}

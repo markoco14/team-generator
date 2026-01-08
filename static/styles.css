@@ -2,6 +2,12 @@
     navigation: auto;
 }
 
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 .htmx-indicator {
     opacity: 0;
     display: none;
@@ -29,7 +35,6 @@ body {
     overflow-y: scroll;
     font-size: 18px;
     margin: 0;
-    padding: 0 0 5rem 0;
 }
 
 .wrapper {
@@ -37,6 +42,7 @@ body {
     margin: auto;
     padding: 0 0.5rem 0 0.5rem;
 }
+
 
 header > div {
     height: 48px;
@@ -113,4 +119,37 @@ display: grid;
 ul {
     padding: 0;
     list-style-type: none;
+}
+
+{{/* teams page styles */}}
+
+.team-page {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    padding-inline: 0.5rem;
+    
+    section {
+        scroll-snap-align: start;
+        height: 100vh;
+        overflow-y: auto;
+        padding-block: 3rem;
+    }
+}
+
+.team {
+    min-height: 25%;
+    margin-bottom: 1rem;
+
+    ul > li {
+        padding-block: 0.5rem;
+        border-bottom: 1px solid black;
+    }
+
+    ul > li:last-of-type {
+        border-bottom: 0;
+    }
+    label {
+        font-size: 1.5rem;
+    }
 }

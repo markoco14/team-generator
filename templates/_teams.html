@@ -1,8 +1,10 @@
 {% for team in teams %}
+<div class="team">
     <label>Team {{loop.index}}</label>
     <ul>
         {% for student in team  %}
             <li>{{student}}</li>
         {% endfor %}
     </ul>
+</div>
 {% endfor %}
