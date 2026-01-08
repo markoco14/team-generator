@@ -57,18 +57,10 @@ header > div {
 }
 
 form {
-display: grid;
+    display: grid;
     max-width: 500px;
 
-    #teams-button {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 48px;
-        margin: 1rem 0 0 0;
-    }
-
+    
     .input-group {
         display: flex;
         flex-direction: column;
@@ -82,12 +74,19 @@ display: grid;
         justify-content: space-between;
     }
 
-
-    .checkbox-group label {
+    label {
+        padding-block: 0.5rem;
+        border-bottom: 1px solid black;
         display: flex;
         width: 100%;
         justify-content: space-between;
     }
+
+    label:last-of-type {
+        border-bottom: 0;
+    }
+
+
 
     .error {
         height: 16px;
@@ -96,6 +95,16 @@ display: grid;
         font-size: 14px;
         {{/* margin-bottom: 1rem; */}}
     }
+
+    #teams-button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 48px;
+        margin: 1rem 0 0 0;
+    }
+
     
 }
 
