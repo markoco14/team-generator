@@ -1,5 +1,16 @@
+:root {
+    --toggle-green: hsl(128 90 45);
+    --toggle-red: hsl(351 91 56);
+}
+
 @view-transition {
     navigation: auto;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .htmx-indicator {
@@ -29,7 +40,6 @@ body {
     overflow-y: scroll;
     font-size: 18px;
     margin: 0;
-    padding: 0 0 5rem 0;
 }
 
 .wrapper {
@@ -37,6 +47,7 @@ body {
     margin: auto;
     padding: 0 0.5rem 0 0.5rem;
 }
+
 
 header > div {
     height: 48px;
@@ -51,8 +62,83 @@ header > div {
 }
 
 form {
-display: grid;
+    display: grid;
     max-width: 500px;
+
+    
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 0.5rem 0;
+    }
+
+    label {
+        position: relative;
+        padding-block: 0.5rem;
+        border-bottom: 1px solid black;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    label.quantity {
+        align-items: center;
+        margin-bottom: 1rem;
+        border-bottom: 0;
+    }
+
+    label.quantity > input {
+        text-align: right;
+        padding-block: 0.25rem;
+        padding-inline: 0.5rem;
+    }
+
+    label:last-of-type {
+        border-bottom: 0;
+    }
+    
+    .toggle input {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .track {
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        border-radius: 12px;
+        background-color: var(--toggle-red);
+        position: relative;
+        transition: background-color 0.2s ease-in;
+    }
+
+    .track::after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.2s;
+    }
+
+    .toggle input:checked + .track {
+        background-color: var(--toggle-green);
+    }
+
+    .toggle input:checked + .track::after {
+        transform: translateX(20px);
+    }
+
+    .error {
+        height: 16px;
+        color: red;
+        text-align: right;
+        font-size: 14px;
+        {{/* margin-bottom: 1rem; */}}
+    }
 
     #teams-button {
         position: fixed;
@@ -63,33 +149,6 @@ display: grid;
         margin: 1rem 0 0 0;
     }
 
-    .input-group {
-        display: flex;
-        flex-direction: column;
-        margin: 0 0 0.5rem 0;
-    }
-
-    .quantity {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-between;
-    }
-
-
-    .checkbox-group label {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .error {
-        height: 16px;
-        color: red;
-        text-align: right;
-        font-size: 14px;
-        {{/* margin-bottom: 1rem; */}}
-    }
     
 }
 
@@ -113,4 +172,57 @@ display: grid;
 ul {
     padding: 0;
     list-style-type: none;
+}
+
+{{/* teams page styles */}}
+
+.team-page {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    padding-inline: 0.5rem;
+
+
+    section {
+        scroll-snap-align: start;
+        height: 100vh;
+        overflow-y: auto;
+        padding-block: 3rem;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .team-page {
+        height: auto;
+        padding-inline: 0;
+
+        section {
+            max-width: 600px;
+            margin-inline: auto;
+            height: auto;
+        }
+    }
+}
+
+.center {
+    height: 100%;
+    display: grid;
+    place-content: center;
+}
+
+.team {
+    min-height: 25%;
+    margin-bottom: 1rem;
+
+    ul > li {
+        padding-block: 0.5rem;
+        border-bottom: 1px solid black;
+    }
+
+    ul > li:last-of-type {
+        border-bottom: 0;
+    }
+    label {
+        font-size: 1.5rem;
+    }
 }

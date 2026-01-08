@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block header %} {% endblock header %}
+{% block content %}
+<div class="team-page">
+
+    <section id="teams" class="teams-container">
+        <div class="center">
+            <p>You haven't made any teams yet</p>
+        </div>
+        
+    </section>
+
+    <section class="view">
+        <h2>Students attendance:</h2>
+        {% if students %}
+        <form 
+            hx-post="/make-teams"
+            hx-target="#teams"
+            >
+            <label for="quantity" class="quantity">
+                <span>How many teams?</span>
+                <input id="quantity" name="number-of-teams" type="number" value="2"/>
+            </label>
+            {% for student in students %}
+            <label for="student-{{student[0]}}" class="toggle">
+                <span>{{student.name}}</span>
+                <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
+                <span class="track"></span>
+            </label>
+            {% endfor %}
+            <button id="teams-button" type="submit">Make Teams</button>
+        </form>
+        {% else %}
+        <p>Oops. There are no students in this class.</p>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock content %}
