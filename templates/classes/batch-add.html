@@ -3,6 +3,7 @@
 Batch Add Students | TeamMaker
 {% endblock title %}
 {% block content %}
+<div class="wrapper">
     <h1>Batch add students to {{class.name}} class</h1>
     <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
     <form action="/classes/{{class.id}}/students/batch" method="POST">
@@ -27,16 +28,17 @@ Batch Add Students | TeamMaker
         </div>
         <button type="submit">Save</button>
     </form>
-    <script>
-        document.querySelectorAll("textarea").forEach(function(textarea) {
-            textarea.style.height = "auto"; // Reset height to allow shrinking
-            textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
-            textarea.style.overflowY = "hidden"; // Hide scrollbar if present
+</div>
+<script>
+    document.querySelectorAll("textarea").forEach(function(textarea) {
+        textarea.style.height = "auto"; // Reset height to allow shrinking
+        textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
+        textarea.style.overflowY = "hidden"; // Hide scrollbar if present
 
-            textarea.addEventListener("input", function() {
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + "px";
-            });
+        textarea.addEventListener("input", function() {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
         });
-    </script>
+    });
+</script>
 {% endblock content %}

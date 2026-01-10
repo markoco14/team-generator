@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="wrapper">
     <h1>Your Class {{request.path_params.get("class_id")}}</h1>
     <p>Manage your class information and student list <a href="/classes/{{request.path_params.get('class_id')}}/edit">here</a>.</p>
     <h2>Make Your Teams</h2>
     <p>Remove absent students, choose your number of teams, and get new teams as often as you want.</p>
     <a href="/classes/{{request.path_params.get('class_id')}}/teams">Make teams now</a>
+</div>
 {% endblock content %}
