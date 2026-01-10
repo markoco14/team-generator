@@ -3,16 +3,13 @@
 <div class="wrapper">
     <section>
         <header>
-            <h1>Edit {{class.name}}</h1>
+            <h1>Edit {{class.name}} {% if not "class" in class[1]|lower %}Class{% endif %}</h1>
             <a 
             href="/classes/{{class.id}}/delete" 
             hx-delete="/classes/{{class.id}}" 
             hx-swap="none"
             hx-confirm="Are you sure you want to delete this class? There is no going back.">Delete</a>
         </header>
-    </section>
-    <section>
-        <h2>Class Information</h2>
         <form 
             hx-put="/classes/{{request.path_params.get('class_id')}}"
             hx-target="body"
@@ -30,7 +27,7 @@
             <a href="/classes/{{class.id}}/students">Add</a>
         </header>
         {% if students %}
-        <ul>
+        <ul class="student-list">
             {% for student in students  %}
                 <li id="{{student.id}}">
                     {% include "classes/_student.html" %}

@@ -116,7 +116,6 @@ section > header {
 
 form {
     display: grid;
-    max-width: 500px;
     
     .input-group {
         display: flex;
@@ -218,6 +217,7 @@ form {
 
 .flexform {
     display: flex;
+    flex-direction: row;
     gap: 1rem;
 }
 
@@ -266,10 +266,17 @@ form {
     li {
         padding-block: 0.5rem;
         border-bottom: 1px solid black;
+        display: flex;
+        justify-content: space-between;
     }
 
     li:last-of-type {
         border-bottom: none;
+    }
+
+    li > form {
+        display: flex;
+        flex-direction: row;
     }
 }
 
