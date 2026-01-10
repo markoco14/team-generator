@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="wrapper">
+<div class="wrapper">
     {% if not user %}
-    <h1>Sign In</h1>
+    <h1 class="page-header">Sign In</h1>
     <form action="/login" method="POST" hx-post="/login" hx-swap="none">
         <label for="username">
             Email
@@ -20,10 +20,8 @@
         </button>
     </form>
     {% else %}
-    <header>
-        <h1>Your classes</h1>
-        <a href="/classes/new">New</a>
-    </header>
+    <h1 class="page-header">Your classes</h1>
+    <a href="looks-like-faded-list-item">Add class</a>
     {% if classes %}
     <ul class="class-list">
         {% for class in classes %}
@@ -39,5 +37,5 @@
     <p>You don't have any classes yet.</p>
     {% endif %}
     {% endif %}
-</section>
+</div>
 {% endblock content %}
