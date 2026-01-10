@@ -1,36 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-{% if not user %}
+<section class="wrapper">
+    {% if not user %}
     <h1>Sign In</h1>
     <form action="/login" method="POST" hx-post="/login" hx-swap="none">
-        <div class="input-group">
-            <label for="username">Email</label>
+        <label for="username">
+            Email
             <input id="username" type="text" name="username" autofocus autocomplete="username" value="{% if form_values and form_values.get('username') %}{{form_values.get('username')}}{% endif %}"/>
             <span class="error">{% if form_errors and form_errors.get("email") %}{{form_errors.get("email")}}{% endif %}</span>            
-        </div>
-        <div class="input-group">
-            <label for="password">Password</label>
+        </label>
+        <label for="password">
+            Password
             <input id="password" type="password" name="password" value="{% if form_values and form_values.get('password') %}{{form_values.get('password')}}{% endif %}"/>
             <span class="error">{% if form_errors and form_errors.get("password") %}{{form_errors.get("password")}}{% endif %}</span>            
-        </div>
+        </label>
         <button type="submit">
         <span class="indicating-hide">Log in</span>
         <span class="htmx-indicator">Logging in</span>
         </button>
     </form>
-{% else %}
-    <h1>Welcome to the home of all things teams</h1>
-    <p>Make quick, easy teams for all your classes. Spend more time playing and less time setting up.</p>
-    <h2>Here is a list of all your classes</h2>
-    <a href="/classes/new">Add New Class</a>
+    {% else %}
+    <header>
+        <h1>Your classes</h1>
+        <a href="/classes/new">New</a>
+    </header>
     {% if classes %}
-    <ul>
-        {% for class in classes  %}
-            <li><a href="/classes/{{class.id}}">{{class.name}}</a></li>
+    <ul class="class-list">
+        {% for class in classes %}
+            <li>
+                {{ class.name }}
+                <div class="button-group">
+                    <a href="/classes/{{class.id}}/edit">Manage</a><a href="/classes/{{class.id}}/teams">Teams</a>
+                </div>
+            </li>
         {% endfor %}
     </ul>
     {% else %}
     <p>You don't have any classes yet.</p>
     {% endif %}
-{% endif %}
+    {% endif %}
+</section>
 {% endblock content %}

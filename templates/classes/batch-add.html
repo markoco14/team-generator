@@ -3,40 +3,29 @@
 Batch Add Students | TeamMaker
 {% endblock title %}
 {% block content %}
-    <h1>Batch add students to {{class.name}} class</h1>
-    <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
+<div class="wrapper">
+    <section>
+        <h1>Add students</h1>
+        <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
+    </section>
     <form action="/classes/{{class.id}}/students/batch" method="POST">
-        <p>Enter each students name on a new line without commas. Names on the same line will be added together</p>
-        <details open>
-            <summary>Example</summary>
-            <div>
-                <p class="example">
-                Student 1
-                </p>
-                <p class="example">
-                Student 2
-                </p>
-                <p class="example">
-                Student 3
-                </p>
-            </div>
-        </details>
         <div class="input-group">
             <label for="students">Student names</label>
             <textarea id="students" name="students" rows="5" autofocus></textarea>
         </div>
         <button type="submit">Save</button>
     </form>
-    <script>
-        document.querySelectorAll("textarea").forEach(function(textarea) {
-            textarea.style.height = "auto"; // Reset height to allow shrinking
-            textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
-            textarea.style.overflowY = "hidden"; // Hide scrollbar if present
+</div>
+<script>
+    document.querySelectorAll("textarea").forEach(function(textarea) {
+        textarea.style.height = "auto"; // Reset height to allow shrinking
+        textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
+        textarea.style.overflowY = "hidden"; // Hide scrollbar if present
 
-            textarea.addEventListener("input", function() {
-                this.style.height = "auto";
-                this.style.height = this.scrollHeight + "px";
-            });
+        textarea.addEventListener("input", function() {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
         });
-    </script>
+    });
+</script>
 {% endblock content %}

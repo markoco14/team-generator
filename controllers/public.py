@@ -202,5 +202,5 @@ async def make_teams(
     return templates.TemplateResponse(
         request=request,
         name="_teams.html",
-        context={"teams": teams}
+        context={"user":user,"teams": teams}
     )

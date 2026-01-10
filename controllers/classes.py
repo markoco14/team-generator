@@ -22,7 +22,7 @@ async def new(
     return templates.TemplateResponse(
         request=request,
         name="classes/new.html",
-        context={"form_data": None, "form_errors": None}
+        context={"user": user, "form_data": None, "form_errors": None}
     )
 
 async def create(
@@ -76,14 +76,19 @@ async def show(
 
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM classes WHERE id = ?;", (class_id, ))
+        class_row = cursor.fetchone()
+        
         cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
         students = [StudentRow(*row) for row in cursor.fetchall()]
+        
         cursor.close()
 
     return templates.TemplateResponse(
         request=request,
         name="classes/show.html",
-        context={"students": students}
+        context={"user": user, "class": class_row, "students": students}
     )
 
 async def edit(
@@ -108,7 +113,7 @@ async def edit(
     return templates.TemplateResponse(
         request=request,
         name="classes/edit.html",
-        context={"class": class_row, "students": students}
+        context={"user": user, "class": class_row, "students": students}
     )
 
 async def update(
@@ -186,7 +191,7 @@ async def students(
     return templates.TemplateResponse(
         request=request,
         name="classes/batch-add.html",
-        context={"class": class_row}
+        context={"user": user, "class": class_row}
     )
     
 
@@ -247,7 +252,7 @@ async def edit_student(
     return templates.TemplateResponse(
         request=request,
         name="classes/_edit-student.html",
-        context={"class": class_row, "student": student_row}
+        context={"user": user, "class": class_row, "student": student_row}
     )
 
 
@@ -318,5 +323,5 @@ async def teams(
     return templates.TemplateResponse(
         request=request,
         name="classes/teams.html",
-        context={"students": students}
+        context={"user": user, "students": students}
     )

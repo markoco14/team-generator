@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Your Class {{request.path_params.get("class_id")}}</h1>
-    <p>Manage your class information and student list <a href="/classes/{{request.path_params.get('class_id')}}/edit">here</a>.</p>
-    <h2>Make Your Teams</h2>
-    <p>Remove absent students, choose your number of teams, and get new teams as often as you want.</p>
-    <a href="/classes/{{request.path_params.get('class_id')}}/teams">Make teams now</a>
+<div class="wrapper">
+    <section>
+        <h1>{{ class[1] }} {% if not "class" in class[1]|lower %}Class{% endif %}</h1>
+        <p>Make teams to play games. Choose 2 or more teams. Remove absent students for the day, and have fun. <a href="/classes/{{ class[0] }}/teams">Make teams</a>.</p>
+    </section>
+    <section>
+        <header class="list-header">
+            <h2>Info</h2>
+            <a href="/classes/{{ class[0] }}/edit">Manage</a>
+        </header>
+        <ul class="student-list">
+            {% for student in students  %}
+            <li>{{ student.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
 {% endblock content %}
