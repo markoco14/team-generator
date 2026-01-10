@@ -65,7 +65,7 @@ section > h1, h2 {
 }
 
 .wrapper {
-    max-width: 600px;
+    max-width: 500px;
     margin: auto;
 }
 
@@ -161,9 +161,10 @@ form {
         border-bottom: 0;
     }
     
-    .toggle input {
+    .toggle input[type="checkbox"] {
         position: absolute;
         opacity: 0;
+        pointer-events: none;
     }
 
     .track {
@@ -294,6 +295,11 @@ form {
         height: 100vh;
         overflow-y: auto;
         padding-block: 3rem;
+        margin-bottom: 0;
+    }
+
+    label {
+        position: relative;
     }
 }
 
@@ -328,6 +334,7 @@ form {
     ul > li:last-of-type {
         border-bottom: 0;
     }
+
     label {
         font-size: 1.5rem;
     }
