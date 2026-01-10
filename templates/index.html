@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="wrapper">
+<section class="wrapper">
     {% if not user %}
     <h1>Sign In</h1>
     <form action="/login" method="POST" hx-post="/login" hx-swap="none">
@@ -20,19 +20,24 @@
         </button>
     </form>
     {% else %}
-    <header class="list-header">
+    <header>
         <h1>Your classes</h1>
         <a href="/classes/new">New</a>
     </header>
     {% if classes %}
     <ul class="class-list">
-        {% for class in classes  %}
-            <li><a href="/classes/{{class.id}}">{{class.name}}</a></li>
+        {% for class in classes %}
+            <li>
+                {{ class.name }}
+                <div class="button-group">
+                    <a href="/classes/{{class.id}}/edit">Manage</a><a href="/classes/{{class.id}}/teams">Teams</a>
+                </div>
+            </li>
         {% endfor %}
     </ul>
     {% else %}
     <p>You don't have any classes yet.</p>
     {% endif %}
     {% endif %}
-</div>
+</section>
 {% endblock content %}

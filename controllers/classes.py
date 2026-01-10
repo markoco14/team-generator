@@ -76,14 +76,19 @@ async def show(
 
     with sqlite3.connect("db.sqlite3") as conn:
         cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM classes WHERE id = ?;", (class_id, ))
+        class_row = cursor.fetchone()
+        
         cursor.execute(f"SELECT id, name, class_id FROM students WHERE class_id = {class_id};")
         students = [StudentRow(*row) for row in cursor.fetchall()]
+        
         cursor.close()
 
     return templates.TemplateResponse(
         request=request,
         name="classes/show.html",
-        context={"students": students}
+        context={"class": class_row, "students": students}
     )
 
 async def edit(
