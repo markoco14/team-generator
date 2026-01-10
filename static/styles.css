@@ -45,7 +45,7 @@ body {
 .wrapper {
     max-width: 600px;
     margin: auto;
-    padding: 0 0.5rem 0 0.5rem;
+    padding-inline: 0.5rem;
 }
 
 
