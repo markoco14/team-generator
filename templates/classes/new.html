@@ -8,12 +8,13 @@
         method="POST"
         hx-post="/classes"
         hx-swap="none"
+        hx-disabled-elt="find button"
         >
-        <div class="input-group">
-            <label for="name">Name</label>
+        <label for="name">
+            Name
             <input type="text" id="name" name="name" autofocus/>
             <span id="name-error" class="error">{% if form_errors and form_errors.get("name") %}{{form_errors.get("name")}}{% endif %}</span>
-        </div>
+        </label>
         <button type="submit">Save</button>
     </form>
 </div>
