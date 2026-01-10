@@ -302,6 +302,38 @@ form {
 .button-group {
     display: flex;
     gap: 0.5rem;
+
+    button {
+        background: none;
+        border: none;
+        padding-inline: 0.5rem;
+        padding-block: 0.25rem;
+        border: 1px solid;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
+
+    .edit {
+        background-color: white;
+        color: black;
+        border-color: black;
+    }
+
+    .edit:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .delete {
+        background-color: var(--error);
+        color: white;   
+        border-color: var(--error);
+    }
+
+    .delete:hover {
+        background-color: red;
+
+    }
 }
 
 /* student list styles */

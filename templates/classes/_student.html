@@ -4,12 +4,15 @@
     <button 
         hx-get="/classes/{{student.class_id}}/students/{{student.id}}/edit" 
         hx-target="closest li"
+        class="edit"
         >Edit
     </button>
     <button 
         hx-delete="/classes/{{student.class_id}}/students/{{student.id}}" 
         hx-swap="delete" 
-        hx-target="closest li">
+        hx-target="closest li"
+        class="delete"
+        >
         Delete
     </button>
 </div>
