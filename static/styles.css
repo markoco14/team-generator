@@ -1,11 +1,11 @@
+@view-transition {
+    navigation: auto;
+}
+
 :root {
     --error: hsl(11 87 48);
     --toggle-green: hsl(128 90 45);
     --toggle-red: hsl(351 91 56);
-}
-
-@view-transition {
-    navigation: auto;
 }
 
 * {
@@ -79,7 +79,7 @@ main > div.wrapper {
     }
 }
 
-header {
+.page-header {
     border-bottom: 1px solid black;
 
     div {
@@ -87,7 +87,6 @@ header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-
     }
 }
 
