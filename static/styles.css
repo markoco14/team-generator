@@ -45,7 +45,12 @@ body {
 .wrapper {
     max-width: 600px;
     margin: auto;
-    padding-inline: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    .wrapper {
+        padding-inline: 0.5rem;
+    }
 }
 
 
