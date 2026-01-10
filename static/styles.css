@@ -246,6 +246,30 @@ form {
         border-bottom: none;
     }
 
+   
+    .add-btn {
+        justify-content: end;
+    }
+    .add-btn > a {
+        display: block;
+        place-self: right;
+        padding-block: 0.25rem;
+        padding-inline: 1rem;
+        border: 1px solid black;
+        border-radius: 0.25rem;
+        color: black;
+        text-decoration: none;
+        
+    }
+
+    .add-btn > a:hover {
+        background-color: rgb(22, 22, 22);
+        color: white;
+    }
+
+    .add-btn > a:active {
+        background-color: rgb(59, 59, 59);
+    }
 }
 
 .button-group {

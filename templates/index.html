@@ -2,7 +2,7 @@
 {% block content %}
 <div class="wrapper">
     {% if not user %}
-    <h1 class="page-header">Sign In</h1>
+    <h1 class="page-header">Sign in</h1>
     <form action="/login" method="POST" hx-post="/login" hx-swap="none">
         <label for="username">
             Email
@@ -21,9 +21,12 @@
     </form>
     {% else %}
     <h1 class="page-header">Your classes</h1>
-    <a href="looks-like-faded-list-item">Add class</a>
-    {% if classes %}
     <ul class="class-list">
+        <li class="add-btn">
+            <a href="/classes/new">
+                {% if classes|length == 0 %}Add first class{% else %}Add class{% endif %}
+            </a>
+        </li>
         {% for class in classes %}
             <li>
                 {{ class.name }}
@@ -33,9 +36,6 @@
             </li>
         {% endfor %}
     </ul>
-    {% else %}
-    <p>You don't have any classes yet.</p>
-    {% endif %}
     {% endif %}
 </div>
 {% endblock content %}
