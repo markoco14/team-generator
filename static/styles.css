@@ -1,11 +1,11 @@
+@view-transition {
+    navigation: auto;
+}
+
 :root {
     --error: hsl(11 87 48);
     --toggle-green: hsl(128 90 45);
     --toggle-red: hsl(351 91 56);
-}
-
-@view-transition {
-    navigation: auto;
 }
 
 * {
@@ -44,33 +44,31 @@ body {
 }
 
 
-section {
-    margin-bottom: 2rem;
-}
+/* site header styles */
 
-main > section:first-of-type {
-    padding-top: 1rem;
+.site-header {
+    border-bottom: 1px solid black;
+
+    div {
+        height: 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 main > div:first-of-type {
     padding-top: 1rem;
 }
 
-section > h1 {
+section {
     margin-bottom: 1rem;
 }
 
-section > h1, h2 {
-    border-bottom: 1px solid black;
-}
 
 .wrapper {
     max-width: 500px;
     margin: auto;
-}
-
-main > div.wrapper {
-    padding-top: 1rem;
 }
 
 @media screen and (max-width: 600px) {
@@ -79,17 +77,24 @@ main > div.wrapper {
     }
 }
 
-header {
+.page-header,
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
     border-bottom: 1px solid black;
-
-    div {
-        height: 48px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-    }
 }
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    margin-bottom: 1rem;
+}
+
+
+
 
 .list-header {
     border-bottom: none;
@@ -97,17 +102,6 @@ header {
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 1rem;
-}
-
-section > header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 1rem;
-
-    h1, h2 {
-        border-bottom: none;
-    }
 }
 
 .example {
@@ -213,6 +207,33 @@ form {
         margin: 1rem 0 0 0;
     }
 
+    button {
+        display: block;
+        padding-block: 0.5rem;
+        border: 1px solid black;
+        background-color: black;
+        border-radius: 0.25rem;
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 
+            background-color 100ms ease-in,
+            color 100ms ease-in;
+    }
+
+    button:hover {
+        background-color: rgb(26, 25, 25);
+    }
+
+    button:active {
+        background-color: rgb(51, 51, 51);
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
     
 }
 
@@ -235,7 +256,7 @@ form {
 }
 
 
-{# class-list styles #}
+/* class-list styles */
 
 .class-list {
     padding: 0;
@@ -252,37 +273,134 @@ form {
         border-bottom: none;
     }
 
+   
+    .add-btn {
+        justify-content: end;
+    }
+    .add-btn > a {
+        display: block;
+        place-self: right;
+        padding-block: 0.25rem;
+        padding-inline: 1rem;
+        border: 1px solid black;
+        border-radius: 0.25rem;
+        color: black;
+        text-decoration: none;
+        
+    }
+
+    .add-btn > a:hover {
+        background-color: rgb(22, 22, 22);
+        color: white;
+    }
+
+    .add-btn > a:active {
+        background-color: rgb(59, 59, 59);
+    }
 }
 
 .button-group {
     display: flex;
     gap: 0.5rem;
+
+    button {
+        background: none;
+        border: none;
+        padding-inline: 0.5rem;
+        padding-block: 0.25rem;
+        border: 1px solid;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
+
+    .edit {
+        background-color: white;
+        color: black;
+        border-color: black;
+    }
+
+    .edit:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .delete {
+        background-color: var(--error);
+        color: white;   
+        border-color: var(--error);
+    }
+
+    .delete:hover {
+        background-color: red;
+
+    }
 }
 
-{# student list styles #}
+/* student list styles */
 .student-list {
-    padding: 0;
+     padding: 0;
     list-style-type: none;
 
     li {
-        padding-block: 0.5rem;
-        border-bottom: 1px solid black;
         display: flex;
         justify-content: space-between;
+        padding-block: 0.5rem;
+        border-bottom: 1px solid black;
     }
 
     li:last-of-type {
         border-bottom: none;
     }
 
-    li > form {
-        display: flex;
-        flex-direction: row;
+   
+    .add-btn {
+        justify-content: start;
+    }
+    .add-btn > a {
+        display: block;
+        padding-block: 0.25rem;
+        padding-inline: 1rem;
+        border: 1px solid black;
+        border-radius: 0.25rem;
+        color: black;
+        text-decoration: none;
+        
+    }
+
+    .add-btn > a:hover {
+        background-color: rgb(22, 22, 22);
+        color: white;
+    }
+
+    .add-btn > a:active {
+        background-color: rgb(59, 59, 59);
     }
 }
 
 
-{# teams page styles #}
+.delete-container {
+    display: flex;
+    justify-content: left;
+    margin-top: 1rem;
+
+    .delete-btn {
+        display: block;
+        width: fit-content;
+        padding-block: 0.25rem;
+        padding-inline: 1rem;
+        border: 1px solid var(--error);
+        border-radius: 0.25rem;
+        color: var(--error);
+        text-decoration: none;
+    }
+
+    .delete-btn:hover {
+        background-color: var(--error);
+        color: white;
+    }
+}
+
+/* team page styles */
 .team-page {
     height: 100vh;
     overflow-y: auto;

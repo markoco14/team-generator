@@ -1,13 +1,8 @@
 {% extends "base.html" %}
-{% block title %}
-Batch Add Students | TeamMaker
-{% endblock title %}
-{% block content %}
+{% block title %}Add Students {{ class[1] }} {% if not "class" in class[1]|lower %}Class{% endif %} | TeamUp{% endblock title %}{% block content %}
 <div class="wrapper">
-    <section>
-        <h1>Add students</h1>
-        <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
-    </section>
+    <h1 class="page-header">Add students</h1>
+    <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
     <form action="/classes/{{class.id}}/students/batch" method="POST">
         <div class="input-group">
             <label for="students">Student names</label>

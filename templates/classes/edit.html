@@ -1,42 +1,49 @@
 {% extends "base.html" %}
+{% block title %}Manage {{ class[1] }} {% if not "class" in class[1]|lower %}Class{% endif %} | TeamUp{% endblock title %}
 {% block content %}
 <div class="wrapper">
+    <h1 class="page-header">Manage {{class.name}} {% if not "class" in class[1]|lower %}Class{% endif %}</h1>
     <section>
-        <header>
-            <h1>Edit {{class.name}} {% if not "class" in class[1]|lower %}Class{% endif %}</h1>
-            <a 
-            href="/classes/{{class.id}}/delete" 
-            hx-delete="/classes/{{class.id}}" 
-            hx-swap="none"
-            hx-confirm="Are you sure you want to delete this class? There is no going back.">Delete</a>
-        </header>
+        <h2 class="section-header">Class info</h2>
         <form 
             hx-put="/classes/{{request.path_params.get('class_id')}}"
             hx-target="body"
             >
             <label for="name">
                 Name
-                <input type="text" id="name" name="name" value="{{class.name}}" autofocus/>
+                <input type="text" id="name" name="name" value="{{class.name}}"/>
             </label>
             <button type="submit">Save</button>
         </form>
     </section>
     <section>
-        <header>
-            <h2>Students</h2>
-            <a href="/classes/{{class.id}}/students">Add</a>
-        </header>
-        {% if students %}
+        <h2 class="section-header">Students</h2>
         <ul class="student-list">
+            <li class="add-btn">
+                <a href="/classes/{{class.id}}/students">
+                    {% if students|length == 0 %}Add first student{% else %}Add students{% endif %}
+                </a>
+            </li>
             {% for student in students  %}
                 <li id="{{student.id}}">
                     {% include "classes/_student.html" %}
                 </li>
             {% endfor %}
         </ul>
-        {% else %}
-        <p>You don't have any students registered yet.</p>
-        {% endif %}
+    </section>
+    <section>
+        <h2 class="section-header">Danger Zone</h2>
+        <p>Delete your class with the button below. Careful, you can't undo this.</p>
+        <div class="delete-container">
+            <a 
+                href="/classes/{{class.id}}/delete" 
+                hx-delete="/classes/{{class.id}}" 
+                hx-swap="none"
+                hx-confirm="Are you sure you want to delete this class? There is no going back."
+                class="delete-btn">
+                Delete
+            </a>
+        </div>
     </section>
 </div>
 {% endblock content %}
