@@ -20,6 +20,8 @@ routes = [
     ("DELETE",  "/classes/{class_id}",                              classes.delete,         [Depends(requires_owner)]),
     ("GET",     "/classes/{class_id}/delete",                       classes.delete,         [Depends(requires_owner)]),
     ("GET",     "/classes/{class_id}/students",                     classes.students,       [Depends(requires_owner)]),
+    ("GET",     "/classes/{class_id}/students/input",               classes.input,          [Depends(requires_owner)]),
+    ("DELETE",     "/classes/{class_id}/students/input/delete",        classes.delete_input,   [Depends(requires_owner)]),
     ("POST",    "/classes/{class_id}/students/batch",               classes.create_batch,   [Depends(requires_owner)]),
     ("GET",     "/classes/{class_id}/students/{student_id}/edit",   classes.edit_student,   [Depends(requires_owner)]),
     ("PUT",     "/classes/{class_id}/students/{student_id}",        classes.update_student, [Depends(requires_owner)]),
