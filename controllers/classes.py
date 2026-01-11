@@ -193,6 +193,18 @@ async def students(
         name="classes/batch-add.html",
         context={"user": user, "class": class_row}
     )
+
+
+async def input(request: Request, class_id: int):
+    return templates.TemplateResponse(
+        request=request,
+        name="classes/_student-input.html",
+        context={"class_id": class_id}
+    )
+
+
+async def delete_input(request: Request):
+    return Response(status_code=200, content="Input deleted.")
     
 
 async def create_batch(
@@ -207,12 +219,29 @@ async def create_batch(
         return RedirectResponse(status_code=303, url="/")
     
     form_data = await request.form()
-    students = form_data.get("students")
-    
-    if students.find(","):
-        students = students.replace(",", "")
+    students = form_data.getlist("students")
 
-    students = students.split("\r\n")
+    error = None
+    count = 0
+    for student in students:
+        if not student:
+            count += 1
+
+    if count == 1:
+        error = f"{count} student has no name."
+    elif count > 1:
+        error = f"{count} students have no name."
+
+    if error:
+        html = f"{error}"
+        return HTMLResponse(
+            status_code=200,
+            content=html,
+            headers={
+                "hx-retarget": ".error",
+                "hx-reswap": "innerHTML"
+                })
+    
     students = filter(None, students)
 
     batch_data = [StudentCreate(name=student, class_id=class_id) for student in students]
@@ -223,8 +252,13 @@ async def create_batch(
             cursor.executemany("INSERT INTO students (name, class_id) VALUES (?, ?)", batch_data)
         except Exception as e:
             print(f"an error occured when inserting students: {e}")
+        
+    if request.headers.get("hx-request"):
+        response = Response(status_code=200, headers={"hx-redirect": f"/classes/{class_id}/edit"})
+    else:
+        response = RedirectResponse(status_code=303, url=f"/classes/{class_id}/edit")
 
-    return RedirectResponse(status_code=303, url=f"/classes/{class_id}/edit")
+    return response
 
 
 async def edit_student(

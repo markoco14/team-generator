@@ -3,24 +3,23 @@
 <div class="wrapper">
     <h1 class="page-header">Add students</h1>
     <p>Add comma separated names to the text area below. Click save when you are ready to add those students.</p>
-    <form action="/classes/{{class.id}}/students/batch" method="POST">
-        <div class="input-group">
-            <label for="students">Student names</label>
-            <textarea id="students" name="students" rows="5" autofocus></textarea>
-        </div>
-        <button type="submit">Save</button>
+    <button 
+        hx-get="/classes/{{class.id}}/students/input"
+        hx-target="next form > ul"
+        hx-swap="afterbegin"
+        class="student-input-btn"
+        type="button">
+        Add student
+    </button>
+    <p class="count-container">Number of students: <span id="student-count">0</span></p>
+    <form
+        action="/classes/{{class.id}}/students/batch"
+        method="POST"
+        hx-post="/classes/{{class.id}}/students/batch"
+        hx-swap="none">
+        <ul id="student-list" hx-on::after-swap="updateStudentCount()"></ul>
+        <span id="student-error" class="error"></span>
+        <button type="submit" disabled="true">Save students</button>
     </form>
 </div>
-<script>
-    document.querySelectorAll("textarea").forEach(function(textarea) {
-        textarea.style.height = "auto"; // Reset height to allow shrinking
-        textarea.style.height = textarea.scrollHeight + "px"; // Set height to scrollHeight
-        textarea.style.overflowY = "hidden"; // Hide scrollbar if present
-
-        textarea.addEventListener("input", function() {
-            this.style.height = "auto";
-            this.style.height = this.scrollHeight + "px";
-        });
-    });
-</script>
 {% endblock content %}
