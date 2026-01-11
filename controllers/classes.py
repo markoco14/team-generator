@@ -196,8 +196,12 @@ async def students(
 
 
 async def input(request: Request, class_id: int):
-    html = f'<li><input type="text" name="students" autocomplete="off"/><button hx-delete="/classes/{class_id}/students/input/delete" hx-target="closest li" hx-swap="delete">x</button></li>'
-    return HTMLResponse(status_code=200, content=html)
+    return templates.TemplateResponse(
+        request=request,
+        name="classes/_student-input.html",
+        context={"class_id": class_id}
+    )
+
 
 async def delete_input(request: Request):
     return Response(status_code=200, content="Input deleted.")
@@ -229,8 +233,14 @@ async def create_batch(
         error = f"{count} students have no name."
 
     if error:
-        html = f'<span class="error">{error}</span>'
-        return HTMLResponse(status_code=200, content=html, headers={"hx-retarget": "find ul", "hx-reswap": "beforeend"})
+        html = f"{error}"
+        return HTMLResponse(
+            status_code=200,
+            content=html,
+            headers={
+                "hx-retarget": ".error",
+                "hx-reswap": "innerHTML"
+                })
     
     students = filter(None, students)
 

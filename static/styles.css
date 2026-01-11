@@ -356,6 +356,32 @@ form {
 
     }
 }
+#student-list {
+    margin-bottom: 0;
+}
+
+.add-student-item {
+    transition: opacity 200ms ease-in;
+}
+
+.add-student-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.add-student-item.htmx-added {
+    opacity: 0;
+}
+
+.count-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+#student-error {
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
 
 .student-input-btn {
     display: block;
