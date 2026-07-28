@@ -13,7 +13,7 @@ from dependencies import requires_user
 from structs.entities import ClassRow, SessionCreate, UserRow
 from structs.pages import HomePageData
 from templates import templates
-from utils import verify_password
+from utils import get_max_number_of_teams, verify_password
 
 
 async def get_homepage(
@@ -182,9 +182,10 @@ async def make_teams(
 
     if number_of_teams < 2:
         return Response(status_code=422, content="Number of teams needs to be a number greater than 2.")
-    
-    if number_of_teams > math.floor(len(students) / 2):
-        return Response(status_code=422, content=f"Number of teams cannot be more than {math.floor(len(students) / 2)}.")
+
+    max_number_of_teams = get_max_number_of_teams(student_list=students)
+    if number_of_teams > max_number_of_teams:
+        return Response(status_code=422, content=f"Number of teams cannot be more than {max_number_of_teams}.")
     
     # shuffles 'students' in place: does not create new variable
     random.shuffle(students) 
