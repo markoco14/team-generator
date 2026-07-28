@@ -1,7 +1,7 @@
 {% for team in teams %}
 <div class="team">
     <label>Team {{loop.index}}</label>
-    <ul>
+    <ul class="team-list">
         {% for student in team  %}
             <li>{{student}}</li>
         {% endfor %}
