@@ -7,6 +7,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from dependencies import requires_owner, requires_user
 from structs.entities import ClassRow, StudentCreate, StudentRow, UserRow
 from templates import templates
+from utils import get_max_number_of_teams
 
 
 async def new(
@@ -354,8 +355,10 @@ async def teams(
         students = [StudentRow(*row) for row in cursor.fetchall()]
         cursor.close()
 
+    max_number_of_teams = get_max_number_of_teams(student_list=students)
+
     return templates.TemplateResponse(
         request=request,
         name="classes/teams.html",
-        context={"user": user, "students": students}
+        context={"user": user, "students": students, "max_number_of_teams": max_number_of_teams}
     )
