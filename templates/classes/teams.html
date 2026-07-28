@@ -24,11 +24,18 @@
                 {% endfor %}
             </select>
             <button id="teams-button" type="submit">Make Teams</button>
-            <h3>Student Attendance</h3>
+            <h3>Student Attendance: <span data-student-count>{{ students | length }}</span></h3>
             {% for student in students %}
-            <label for="student-{{student[0]}}" class="toggle">
+            <label for="student-{{student[0]}}"  class="toggle">
                 <span>{{student.name}}</span>
-                <input id="student-{{student[0]}}" name="students" type="checkbox" checked value="{{student.name}}">
+                <input 
+                id="student-{{student[0]}}" 
+                name="students" 
+                type="checkbox" 
+                checked 
+                value="{{student.name}}"
+                data-student-attendance
+                onchange="updateAttendanceCount()">
                 <span class="track"></span>
             </label>
             {% endfor %}
@@ -37,6 +44,20 @@
         <p>Oops. There are no students in this class.</p>
         {% endif %}
     </section>
-
 </div>
+<script>
+function updateAttendanceCount() {
+    let students = document.querySelectorAll("[data-student-attendance]");
+    totalStudentsPresent = 0;
+    students.forEach(student => {
+        if (student.checked) {
+            totalStudentsPresent += 1;
+        }
+    })
+    document.querySelectorAll("[data-student-count]").forEach(elt => {
+        elt.textContent = totalStudentsPresent;
+    });
+
+}
+</script>
 {% endblock content %}
