@@ -1,4 +1,5 @@
 import asyncio
+import math
 from argon2 import PasswordHasher
 
 hasher = PasswordHasher(time_cost=2, memory_cost=32768)
@@ -10,4 +11,7 @@ async def verify_password(stored_hash, password):
     except Exception as e:
         print(f"an error occured verifying password: {e}")
         return False
-     
+
+
+def get_max_number_of_teams(student_list):
+    return math.floor(len(student_list) / 2)
